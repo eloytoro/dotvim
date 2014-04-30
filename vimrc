@@ -1,8 +1,9 @@
 execute pathogen#infect()
 
-"Some comment
 syntax enable
 colorscheme distinguished
+
+"Sets
 set backspace=2
 set rnu
 set showcmd 		
@@ -13,6 +14,17 @@ set wrap
 set linebreak
 set breakat-=*
 set cursorline
+set incsearch
+set wildmenu
+let g:html_indent_inctags = "html,body,head,tbody"
+set shiftwidth=4
+set tabstop=4
+
+"indent
+au BufReadPost *.rkt,*.rktl set filetype=scheme
+au filetype racket set lisp
+au filetype racket set autoindent
+filetype plugin indent on
 
 "maps
 nmap <CR> o<Esc>
@@ -21,8 +33,7 @@ nmap K i<CR><Esc>
 nmap L $
 nmap H ^
 vmap p "_dP
-
-"Uses the ("r) register to replace things
+map s <NOP>
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
 
@@ -37,18 +48,6 @@ set pastetoggle=<F4>
 set smarttab
 set splitbelow
 set visualbell
-
-set incsearch
-set wildmenu
-filetype plugin indent on
-let g:html_indent_inctags = "html,body,head,tbody"
-"set hlsearch
-
-set shiftwidth=4
-set tabstop=4
-au BufReadPost *.rkt,*.rktl set filetype=scheme
-au filetype racket set lisp
-au filetype racket set autoindent
 
 "Easymotion
 let g:EasyMotion_do_mapping = 0 " Disable all mappings
@@ -65,8 +64,27 @@ map  <Space>l <Plug>(easymotion-lineforward)
 map  <Space>h <Plug>(easymotion-linebackward)
 map  <Space>s <Plug>(easymotion-f)
 
+"splitjoin
+nmap sj :SplitjoinJoin<CR>
+nmap sk :SplitjoinSplit<CR>
+
 "Nerdtree
 map <Leader>n :NERDTreeToggle<CR>
+
+"Airline
+let g:airline_symbols = {}
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '>'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '<'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
 
 if has ("gui_running")
 	set guioptions=agim
@@ -76,7 +94,4 @@ if has ("gui_running")
 	set guifont=Consolas
 endif
 
-
 set encoding=utf-8
-
-let g:syntastic_java_javac_config_file_enabled = 1
