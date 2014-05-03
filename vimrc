@@ -1,3 +1,7 @@
+"Useful vim tips
+" vit <xml>(text)</xml>
+" vat (<xml>text</xml>)
+
 execute pathogen#infect()
 
 syntax enable
@@ -29,10 +33,10 @@ filetype plugin indent on
 "maps
 nmap <CR> o<Esc>
 map <F2> :source ~/.vimrc<CR>
-nmap K i<CR><Esc>
+nmap K :SplitJoinSplit<CR>
 nmap L $
 nmap H ^
-vmap p "_dP
+vnoremap p "_dP
 map s <NOP>
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
@@ -85,11 +89,13 @@ let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_detect_whitespace = 0
+let g:airline_theme = 'powerlineish'
 
 if has ("gui_running")
 	set guioptions=agim
 	set background=dark
-	colorscheme solarized
+	colorscheme Tomorrow-Night
 	set guicursor+=a:blinkon0
 	set guifont=Consolas
 endif
