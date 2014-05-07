@@ -34,12 +34,18 @@ filetype plugin indent on
 nmap <CR> o<Esc>
 map <F2> :source ~/.vimrc<CR>
 nmap K :SplitJoinSplit<CR>
+nmap J :SplitJoinJoin<CR>
 nmap L $
 nmap H ^
 vnoremap p "_dP
 map s <NOP>
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
+nmap cd :cd %:p:h<CR>
+nmap gh <C-w>h
+nmap gj <C-w>j
+nmap gk <C-w>k
+nmap gl <C-w>l
 
 "tpope
 set complete-=i
@@ -68,10 +74,6 @@ map  <Space>l <Plug>(easymotion-lineforward)
 map  <Space>h <Plug>(easymotion-linebackward)
 map  <Space>s <Plug>(easymotion-f)
 
-"splitjoin
-nmap sj :SplitjoinJoin<CR>
-nmap sk :SplitjoinSplit<CR>
-
 "Nerdtree
 map <Leader>n :NERDTreeToggle<CR>
 
@@ -90,14 +92,14 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_detect_whitespace = 0
-let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'serene'
 
 if has ("gui_running")
 	set guioptions=agim
 	set background=dark
 	colorscheme Tomorrow-Night
 	set guicursor+=a:blinkon0
-	set guifont=Consolas
+	set guifont=Consolas:h13
 endif
 
 set encoding=utf-8
