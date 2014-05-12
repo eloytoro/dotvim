@@ -29,18 +29,18 @@ au BufReadPost *.rkt,*.rktl set filetype=scheme
 au filetype racket set lisp
 au filetype racket set autoindent
 filetype plugin indent on
+autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
 
 "maps
 nmap <CR> o<Esc>
 map <F2> :source ~/.vimrc<CR>
-nmap K :SplitJoinSplit<CR>
-nmap J :SplitJoinJoin<CR>
 nmap L $
 nmap H ^
 vnoremap p "_dP
 map s <NOP>
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
+nnoremap x "_x
 nmap cd :cd %:p:h<CR>
 nmap gh <C-w>h
 nmap gj <C-w>j
@@ -99,7 +99,7 @@ if has ("gui_running")
 	set background=dark
 	colorscheme Tomorrow-Night
 	set guicursor+=a:blinkon0
-	set guifont=Consolas:h13
+	set guifont=Consolas\ 12
 endif
 
 set encoding=utf-8
