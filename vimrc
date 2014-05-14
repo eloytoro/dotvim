@@ -104,7 +104,7 @@ if has ("gui_running")
 	set background=dark
 	colorscheme Tomorrow-Night
 	set guicursor+=a:blinkon0
-	set guifont=Consolas:h13
+	set guifont=Consolas\ 13
 endif
 
 set encoding=utf-8
