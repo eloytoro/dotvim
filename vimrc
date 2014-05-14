@@ -9,6 +9,7 @@ colorscheme distinguished
 
 "Sets
 set backspace=2
+set nu
 set rnu
 set showcmd 		
 set ruler 				
@@ -31,14 +32,15 @@ au filetype racket set autoindent
 filetype plugin indent on
 
 "maps
-nmap <CR> o<Esc>
 map <F2> :source ~/.vimrc<CR>
-nmap K :SplitJoinSplit<CR>
-nmap J :SplitJoinJoin<CR>
-nmap L $
-nmap H ^
+vmap il <Esc>^v$h
+nnoremap ^ L
+nnoremap $ H
+nnoremap L $
+nnoremap H ^
 vnoremap p "_dP
 map s <NOP>
+vnoremap s "tyqs
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
 nmap cd :cd %:p:h<CR>
@@ -72,7 +74,8 @@ map  <Space>j <Plug>(easymotion-j)
 map  <Space>k <Plug>(easymotion-k)
 map  <Space>l <Plug>(easymotion-lineforward)
 map  <Space>h <Plug>(easymotion-linebackward)
-map  <Space>s <Plug>(easymotion-f)
+map  <Space>f <Plug>(easymotion-f)
+map  <Space>F <Plug>(easymotion-F)
 
 "Nerdtree
 map <Leader>n :NERDTreeToggle<CR>
@@ -103,3 +106,10 @@ if has ("gui_running")
 endif
 
 set encoding=utf-8
+
+vmap s d:call SubstituteWith()<CR>:exe "normal i".substitute_with<CR>q/p<CR>
+fun! SubstituteWith()
+	call inputsave()
+	let g:substitute_with = input("Substitute with: ")
+	call inputrestore()
+endfun
