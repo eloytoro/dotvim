@@ -30,6 +30,7 @@ au BufReadPost *.rkt,*.rktl set filetype=scheme
 au filetype racket set lisp
 au filetype racket set autoindent
 filetype plugin indent on
+autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
 
 "maps
 map <F2> :source ~/.vimrc<CR>
@@ -43,6 +44,7 @@ map s <NOP>
 vnoremap s "tyqs
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
+nnoremap x "_x
 nmap cd :cd %:p:h<CR>
 nmap gh <C-w>h
 nmap gj <C-w>j
