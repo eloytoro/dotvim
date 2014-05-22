@@ -5,7 +5,7 @@
 execute pathogen#infect()
 
 syntax enable
-colorscheme distinguished
+colorscheme wasp
 
 "Sets
 set backspace=2
@@ -50,6 +50,11 @@ nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
+map <C-Down> <C-W>+
+map <C-Up> <C-W>-
+map <C-Right> <C-W><
+map <C-Left> <C-W>>
+nmap <Space><Space> o<Esc>
 
 "tpope
 set complete-=i
@@ -102,7 +107,7 @@ let g:airline_theme = 'serene'
 if has ("gui_running")
 	set guioptions=agim
 	set background=dark
-	colorscheme Tomorrow-Night
+	colorscheme solarized
 	set guicursor+=a:blinkon0
 	set guifont=Consolas\ 13
 endif
@@ -115,3 +120,16 @@ fun! SubstituteWith()
 	let g:substitute_with = input("Substitute with: ")
 	call inputrestore()
 endfun
+
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-P> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+if exists('*HexHighlight()')
+  nmap <leader>h :call HexHighlight()<Return>
+endif
