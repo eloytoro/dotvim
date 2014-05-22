@@ -50,10 +50,10 @@ nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
-map <C-Down> <C-W>+
-map <C-Up> <C-W>-
-map <C-Right> <C-W><
-map <C-Left> <C-W>>
+map <C-Down> <C-W>-
+map <C-Up> <C-W>+
+map <C-Right> <C-W>>
+map <C-Left> <C-W><
 nmap <Space><Space> o<Esc>
 
 "tpope
