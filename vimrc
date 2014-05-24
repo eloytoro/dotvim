@@ -34,7 +34,7 @@ autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade
 
 "maps
 nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
-nnoremap gR gd[{V%::s/<C-R>///g<left><left><left>
+nnoremap gR gd[{V%::s/<C-R>///g<left><left>
 map <F2> :source ~/.vimrc<CR>
 vmap il <Esc>^v$h
 nnoremap ^ L
