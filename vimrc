@@ -33,6 +33,8 @@ filetype plugin indent on
 autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
 
 "maps
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+nnoremap gR gd[{V%::s/<C-R>///g<left><left><left>
 map <F2> :source ~/.vimrc<CR>
 vmap il <Esc>^v$h
 nnoremap ^ L
@@ -40,7 +42,6 @@ nnoremap $ H
 nnoremap L $
 nnoremap H ^
 vnoremap p "_dP
-map s <NOP>
 vnoremap s "tyqs
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
@@ -108,10 +109,3 @@ if has ("gui_running")
 endif
 
 set encoding=utf-8
-
-vmap s d:call SubstituteWith()<CR>:exe "normal i".substitute_with<CR>q/p<CR>
-fun! SubstituteWith()
-	call inputsave()
-	let g:substitute_with = input("Substitute with: ")
-	call inputrestore()
-endfun
