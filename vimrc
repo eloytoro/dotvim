@@ -5,7 +5,10 @@
 execute pathogen#infect()
 
 syntax enable
-colorscheme wasp
+"colorscheme distinguished
+"colorscheme BusyBee
+"colorscheme herald
+colorscheme jellybeans
 
 "Sets
 set backspace=2
@@ -33,6 +36,8 @@ filetype plugin indent on
 autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
 
 "maps
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+nnoremap gR gd[{V%::s/<C-R>///g<left><left>
 map <F2> :source ~/.vimrc<CR>
 vmap il <Esc>^v$h
 nnoremap ^ L
@@ -40,7 +45,6 @@ nnoremap $ H
 nnoremap L $
 nnoremap H ^
 vnoremap p "_dP
-map s <NOP>
 vnoremap s "tyqs
 nnoremap gn gn"_dPn
 vnoremap n "tyq/"tp<CR>gn
@@ -70,19 +74,16 @@ set visualbell
 
 "Easymotion
 let g:EasyMotion_do_mapping = 0 " Disable all mappings
-map  <Space>w <Plug>(easymotion-w)
-map  <Space>W <Plug>(easymotion-W)
-map  <Space>b <Plug>(easymotion-b)
-map  <Space>B <Plug>(easymotion-B)
+map  <Space>w <Plug>(easymotion-bd-w)
+map  <Space>W <Plug>(easymotion-bd-W)
 map  <Space>/ <Plug>(easymotion-sn)
-omap <Space>/ <Plug>(easymotion-tn)
+map  <Space>n <Plug>(easymotion-bd-n)
+map  <Space>j <Plug>(easymotion-bd-jk)
+map  <Space>k <Plug>(easymotion-bd-jk)
+map  <Space>l <Plug>(easymotion-lineanywhere)
+map  <Space>h <Plug>(easymotion-lineanywhere)
 map  <Space>f <Plug>(easymotion-s)
-map  <Space>j <Plug>(easymotion-j)
-map  <Space>k <Plug>(easymotion-k)
-map  <Space>l <Plug>(easymotion-lineforward)
-map  <Space>h <Plug>(easymotion-linebackward)
-map  <Space>f <Plug>(easymotion-f)
-map  <Space>F <Plug>(easymotion-F)
+map  <Space>e <Plug>(easymotion-jumptoanywhere)
 
 "Nerdtree
 map <Leader>n :NERDTreeToggle<CR>
@@ -109,7 +110,7 @@ let g:airline_theme = 'serene'
 if has ("gui_running")
 	set guioptions=agim
 	set background=dark
-	colorscheme solarized
+	colorscheme Tomorrow-Night
 	set guicursor+=a:blinkon0
 	set guifont=Consolas\ 13
 endif
