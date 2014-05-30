@@ -117,15 +117,6 @@ endif
 
 set encoding=utf-8
 
-" Show syntax highlighting groups for word under cursor
-nmap <C-S-P> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-	if !exists("*synstack")
-		return
-	endif
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
 if exists('*HexHighlight()')
 	nmap <leader>h :call HexHighlight()<Return>
 endif
