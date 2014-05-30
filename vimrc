@@ -88,7 +88,9 @@ map  <Space>F <Plug>(easymotion-F)
 map <Leader>n :NERDTreeToggle<CR>
 
 "Airline
-let g:airline_symbols = {}
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
 let g:airline_left_sep = '»'
 let g:airline_left_sep = '>'
 let g:airline_right_sep = '«'
@@ -114,22 +116,15 @@ endif
 
 set encoding=utf-8
 
-vmap s d:call SubstituteWith()<CR>:exe "normal i".substitute_with<CR>q/p<CR>
-fun! SubstituteWith()
-	call inputsave()
-	let g:substitute_with = input("Substitute with: ")
-	call inputrestore()
-endfun
-
 " Show syntax highlighting groups for word under cursor
 nmap <C-S-P> :call <SID>SynStack()<CR>
 function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+	if !exists("*synstack")
+		return
+	endif
+	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
 if exists('*HexHighlight()')
-  nmap <leader>h :call HexHighlight()<Return>
+	nmap <leader>h :call HexHighlight()<Return>
 endif
