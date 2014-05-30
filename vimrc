@@ -66,19 +66,16 @@ set visualbell
 
 "Easymotion
 let g:EasyMotion_do_mapping = 0 " Disable all mappings
-map  <Space>w <Plug>(easymotion-w)
-map  <Space>W <Plug>(easymotion-W)
-map  <Space>b <Plug>(easymotion-b)
-map  <Space>B <Plug>(easymotion-B)
+map  <Space>w <Plug>(easymotion-bd-w)
+map  <Space>W <Plug>(easymotion-bd-W)
 map  <Space>/ <Plug>(easymotion-sn)
-omap <Space>/ <Plug>(easymotion-tn)
+map  <Space>n <Plug>(easymotion-bd-n)
+map  <Space>j <Plug>(easymotion-bd-jk)
+map  <Space>k <Plug>(easymotion-bd-jk)
+map  <Space>l <Plug>(easymotion-lineanywhere)
+map  <Space>h <Plug>(easymotion-lineanywhere)
 map  <Space>f <Plug>(easymotion-s)
-map  <Space>j <Plug>(easymotion-j)
-map  <Space>k <Plug>(easymotion-k)
-map  <Space>l <Plug>(easymotion-lineforward)
-map  <Space>h <Plug>(easymotion-linebackward)
-map  <Space>f <Plug>(easymotion-f)
-map  <Space>F <Plug>(easymotion-F)
+map  <Space>e <Plug>(easymotion-jumptoanywhere)
 
 "Nerdtree
 map <Leader>n :NERDTreeToggle<CR>
