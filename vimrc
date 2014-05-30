@@ -5,7 +5,10 @@
 execute pathogen#infect()
 
 syntax enable
-colorscheme distinguished
+"colorscheme distinguished
+"colorscheme BusyBee
+"colorscheme herald
+colorscheme jellybeans
 
 "Sets
 set backspace=2
