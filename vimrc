@@ -54,6 +54,11 @@ nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
+map <C-Down> <C-W>-
+map <C-Up> <C-W>+
+map <C-Right> <C-W>>
+map <C-Left> <C-W><
+nmap <Space><Space> o<Esc>
 
 "tpope
 set complete-=i
@@ -84,7 +89,9 @@ map  <Space>e <Plug>(easymotion-jumptoanywhere)
 map <Leader>n :NERDTreeToggle<CR>
 
 "Airline
-let g:airline_symbols = {}
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
 let g:airline_left_sep = '»'
 let g:airline_left_sep = '>'
 let g:airline_right_sep = '«'
