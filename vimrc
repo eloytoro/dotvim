@@ -37,28 +37,34 @@ autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade
 
 "maps
 nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
-nnoremap gR gd[{V%::s/<C-R>///g<left><left>
+nnoremap gR yiw:s/<C-R>"//gc<left><left><left>
 map <F2> :source ~/.vimrc<CR>
-vmap il <Esc>^v$h
+nmap <Space><Space> o<Esc>
+inoremap {<CR> {<CR><CR>}<Up><Esc>cc
+inoremap (<CR> (<CR><CR>)<Up><Esc>cc
+"switch L and H with ^ and $
 nnoremap ^ L
 nnoremap $ H
 nnoremap L $
 nnoremap H ^
+"for visual as well
+vnoremap ^ L
+vnoremap $ H
+vnoremap L $h
+vnoremap H ^
+"unnecesary yank register overwrites
 vnoremap p "_dP
-vnoremap s "tyqs
-nnoremap gn gn"_dPn
-vnoremap n "tyq/"tp<CR>gn
 nnoremap x "_x
 nmap cd :cd %:p:h<CR>
+"window controls
 nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
-map <C-Down> <C-W>-
-map <C-Up> <C-W>+
-map <C-Right> <C-W>>
-map <C-Left> <C-W><
-nmap <Space><Space> o<Esc>
+map <C-Down> 2<C-W>-
+map <C-Up> 2<C-W>+
+map <C-Right> 2<C-W>>
+map <C-Left> 2<C-W><
 
 "tpope
 set complete-=i
