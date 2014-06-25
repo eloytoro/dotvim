@@ -113,6 +113,9 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_detect_whitespace = 0
 let g:airline_theme = 'serene'
 
+"Easyclip
+let g:EasyClipUseSubstituteDefaults = 1
+
 if has ("gui_running")
 	set guioptions=agim
 	set background=dark

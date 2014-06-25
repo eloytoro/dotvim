@@ -34,3 +34,6 @@
 [submodule "bundle/vim-blade"]
 	path = bundle/vim-blade
 	url = https://github.com/xsbeats/vim-blade.git
+[submodule "bundle/vim-easyclip"]
+	path = bundle/vim-easyclip
+	url = https://github.com/svermeulen/vim-easyclip.git
