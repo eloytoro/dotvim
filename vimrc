@@ -14,7 +14,7 @@ colorscheme jellybeans
 set backspace=2
 set nu
 set rnu
-set showcmd 		
+set showcmd
 set ruler 				
 set showmatch               
 set scrolloff=2   			
@@ -53,8 +53,6 @@ vnoremap $ H
 vnoremap L $h
 vnoremap H ^
 "unnecesary yank register overwrites
-vnoremap p "_dP
-nnoremap x "_x
 nmap cd :cd %:p:h<CR>
 "window controls
 nmap gh <C-w>h
@@ -126,7 +124,7 @@ endif
 
 set encoding=utf-8
 
-nmap <C-S-P> :call <SID>SynStack()<CR>
+nmap <Leader>s :call <SID>SynStack()<CR>
 function! <SID>SynStack()
   if !exists("*synstack")
     return
