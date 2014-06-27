@@ -119,6 +119,9 @@ let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
 let g:EasyClipAutoFormat = 1
 
+"Signature
+let g:SignatureMap = { 'Leader' :  "gm" }
+let g:SignatureMarkOrder = "'\m"
 
 if has ("gui_running")
 	set guioptions=agim
@@ -132,8 +135,8 @@ set encoding=utf-8
 
 nmap <Leader>s :call <SID>SynStack()<CR>
 function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+	if !exists("*synstack")
+		return
+	endif
+	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
