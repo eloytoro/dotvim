@@ -47,11 +47,12 @@ nnoremap ^ L
 nnoremap $ H
 nnoremap L $
 nnoremap H ^
-"for visual as well
 vnoremap ^ L
 vnoremap $ H
 vnoremap L $h
 vnoremap H ^
+nnoremap yL y$
+nnoremap yH y^
 "unnecesary yank register overwrites
 nmap cd :cd %:p:h<CR>
 "window controls
@@ -93,6 +94,8 @@ map  <Space>e <Plug>(easymotion-jumptoanywhere)
 map <Leader>n :NERDTreeToggle<CR>
 
 "Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
@@ -113,6 +116,9 @@ let g:airline_theme = 'serene'
 
 "Easyclip
 let g:EasyClipUseSubstituteDefaults = 1
+let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
+let g:EasyClipAutoFormat = 1
+
 
 if has ("gui_running")
 	set guioptions=agim
