@@ -1,7 +1,3 @@
-"Useful vim tips
-" vit <xml>(text)</xml>
-" vat (<xml>text</xml>)
-
 execute pathogen#infect()
 
 syntax enable
@@ -43,16 +39,9 @@ nmap <Space><Space> o<Esc>
 inoremap {<CR> {<CR><CR>}<Up><Esc>cc
 inoremap (<CR> (<CR><CR>)<Up><Esc>cc
 "switch L and H with ^ and $
-nnoremap ^ L
-nnoremap $ H
-nnoremap L $
-nnoremap H ^
-vnoremap ^ L
-vnoremap $ H
-vnoremap L $h
-vnoremap H ^
-nnoremap yL y$
-nnoremap yH y^
+omap L $
+map H ^
+map L $
 "unnecesary yank register overwrites
 nmap cd :cd %:p:h<CR>
 "window controls
@@ -91,7 +80,7 @@ map  <Space>f <Plug>(easymotion-s)
 map  <Space>e <Plug>(easymotion-jumptoanywhere)
 
 "Nerdtree
-map <Leader>n :NERDTreeToggle<CR>
+map gn :NERDTreeToggle<CR>
 
 "Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -118,6 +107,7 @@ let g:airline_theme = 'serene'
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
 let g:EasyClipAutoFormat = 1
+nmap M mL
 
 "Signature
 let g:SignatureMap = { 'Leader' :  "gm" }
