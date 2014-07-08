@@ -36,8 +36,8 @@ nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 nnoremap gR yiw:s/<C-R>"//gc<left><left><left>
 map <F2> :source ~/.vimrc<CR>
 nmap <Space><Space> o<Esc>
-inoremap {<CR> {<CR><CR>}<Up><Esc>cc
-inoremap (<CR> (<CR><CR>)<Up><Esc>cc
+inoremap {<CR> {<CR><CR>}<Up><Esc>"_cc
+inoremap (<CR> (<CR><CR>)<Up><Esc>"_cc
 "switch L and H with ^ and $
 omap L $
 map H ^
@@ -105,8 +105,8 @@ let g:airline_theme = 'serene'
 
 "Easyclip
 let g:EasyClipUseSubstituteDefaults = 1
-let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
 let g:EasyClipAutoFormat = 1
+let g:EasyClipPreserveCursorPositionAfterYank = 1
 nmap M mL
 
 "Signature
