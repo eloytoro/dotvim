@@ -86,17 +86,12 @@ set visualbell
 "--------------------------------------------------
 "    Easymotion
 "--------------------------------------------------
-let g:EasyMotion_do_mapping = 0 " Disable all mappings
-map  <Space>w <Plug>(easymotion-bd-w)
-map  <Space>W <Plug>(easymotion-bd-W)
-map  <Space>/ <Plug>(easymotion-sn)
-map  <Space>n <Plug>(easymotion-bd-n)
-map  <Space>j <Plug>(easymotion-bd-jk)
-map  <Space>k <Plug>(easymotion-bd-jk)
-map  <Space>l <Plug>(easymotion-lineanywhere)
-map  <Space>h <Plug>(easymotion-lineanywhere)
-map  <Space>f <Plug>(easymotion-s)
-map  <Space>e <Plug>(easymotion-jumptoanywhere)
+map E <Plug>(easymotion-prefix)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+let g:EasyMotion_smartcase = 1
 
 "--------------------------------------------------
 "    Nerdtree
@@ -156,7 +151,7 @@ endfunc
 command! HL call <SID>hl()
 
 "--------------------------------------------------
-"    TEXT OBJECTS
+"    Text Objects (indent, line)
 "--------------------------------------------------
 function! s:indent_len(str)
 	return type(a:str) == 1 ? len(matchstr(a:str, '^\s*')) : 0
