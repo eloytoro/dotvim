@@ -1,4 +1,29 @@
-execute pathogen#infect()
+"--------------------------------------------------
+"    Vundle
+"--------------------------------------------------
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-git'
+Plugin 'jisaacks/GitGutter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'junegunn/seoul256.vim'
+Plugin 'junegunn/limelight.vim'
+Plugin 'junegunn/goyo.vim'
+Plugin 'svermeulen/vim-easyclip'
+Plugin 'bling/vim-airline'
+Plugin 'xsbeats/vim-blade'
+Plugin 'kshenoy/vim-signature'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'ervandew/supertab'
+
+call vundle#end()
 
 "--------------------------------------------------
 "    Colorschemes

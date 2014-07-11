@@ -1,4 +1,5 @@
 /.net*
 /plugin/
-/eclim
 *.swp
+bundle/*
+!bundle/Vundle.vim
