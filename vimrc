@@ -1,6 +1,6 @@
-"--------------------------------------------------
-"    Vundle
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Vundle
+" ----------------------------------------------------------------------------
 set nocompatible
 filetype off
 
@@ -25,18 +25,18 @@ Plugin 'ervandew/supertab'
 
 call vundle#end()
 
-"--------------------------------------------------
-"    Colorschemes
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Colorschemes
+" ----------------------------------------------------------------------------
 syntax enable
 "colorscheme distinguished
 "colorscheme BusyBee
 "colorscheme jellybeans
 colorscheme xoria256
 
-"--------------------------------------------------
-"    Sets
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Basic
+" ----------------------------------------------------------------------------
 set backspace=2
 set nu
 set rnu
@@ -51,40 +51,59 @@ set cursorline
 set incsearch
 set wildmenu
 let g:html_indent_inctags = "html,body,head,tbody"
+let mapleader = ' '
+let maplocalleader = ' '
 set shiftwidth=4
 set tabstop=4
+set autoread
+set pastetoggle=<F9>
+set nosol
 
-"--------------------------------------------------
-"    fix indent
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Fix Indent
+" ----------------------------------------------------------------------------
 au BufReadPost *.rkt,*.rktl set filetype=scheme
 au filetype racket set lisp
 au filetype racket set autoindent
 filetype plugin indent on
 autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
 
-"--------------------------------------------------
-"    maps
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Maps
+" ----------------------------------------------------------------------------
 map <F2> :source ~/.vimrc<CR>
 nmap <Space><Space> o<Esc>
 inoremap {<CR> {<CR><CR>}<Up><Esc>"_cc
 inoremap (<CR> (<CR><CR>)<Up><Esc>"_cc
-vnoremap > >gv
+nnoremap Q @q
+nnoremap <tab> gt
+nnoremap <S-tab> gT
+" ----------------------------------------------------------------------------
+"	Moving lines
+" ----------------------------------------------------------------------------
+nnoremap <silent> <C-k> :execute ":move ".max([0,         line('.') - 2])<cr>
+nnoremap <silent> <C-j> :execute ":move ".min([line('$'), line('.') + 1])<cr>
+nnoremap <silent> <C-h> <<
+nnoremap <silent> <C-l> >>
+vnoremap <silent> <C-k> :<C-U>execute "normal! gv:move ".max([0,         line("'<") - 2])."\n"<cr>gv
+vnoremap <silent> <C-j> :<C-U>execute "normal! gv:move ".min([line('$'), line("'>") + 1])."\n"<cr>gv
+vnoremap <silent> <C-h> <gv
+vnoremap <silent> <C-l> >gv
 vnoremap < <gv
-"--------------------------------------------------
-"    switch L and H with ^ and $
-"--------------------------------------------------
+vnoremap > >gv
+" ----------------------------------------------------------------------------
+" switch L and H with ^ and $
+" ----------------------------------------------------------------------------
 omap L $
 map H ^
 map L $
-"--------------------------------------------------
-"    unnecesary yank register overwrites
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" unnecesary yank register overwrites
+" ----------------------------------------------------------------------------
 nmap cd :cd %:p:h<CR>
-"--------------------------------------------------
-"    window controls
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" window controls
+" ----------------------------------------------------------------------------
 nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
@@ -94,9 +113,9 @@ map <C-Up> 2<C-W>+
 map <C-Right> 2<C-W>>
 map <C-Left> 2<C-W><
 
-"--------------------------------------------------
-"    tpope
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" tpope
+" ----------------------------------------------------------------------------
 set complete-=i
 set dictionary+=/usr/share/dict/words
 set virtualedit=block
@@ -108,9 +127,9 @@ set smarttab
 set splitbelow
 set visualbell
 
-"--------------------------------------------------
-"    Easymotion
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Easymotion
+" ----------------------------------------------------------------------------
 map E <Plug>(easymotion-prefix)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
@@ -118,14 +137,14 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 
-"--------------------------------------------------
-"    Nerdtree
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Nerdtree
+" ----------------------------------------------------------------------------
 map gn :NERDTreeToggle<CR>
 
-"--------------------------------------------------
-"    Airline
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Airline
+" ----------------------------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 if !exists('g:airline_symbols')
@@ -146,17 +165,17 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_detect_whitespace = 0
 let g:airline_theme = 'serene'
 
-"--------------------------------------------------
-"    Easyclip
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Easyclip
+" ----------------------------------------------------------------------------
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipAutoFormat = 1
 let g:EasyClipPreserveCursorPositionAfterYank = 1
 nmap M mL
 
-"--------------------------------------------------
-"    Signature
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Signature
+" ----------------------------------------------------------------------------
 let g:SignatureMap = { 'Leader' :  "gm" }
 let g:SignatureMarkOrder = "'\m"
 
@@ -175,9 +194,9 @@ function! s:hl()
 endfunc
 command! HL call <SID>hl()
 
-"--------------------------------------------------
-"    Text Objects (indent, line)
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" Text Objects (indent, line)
+" ----------------------------------------------------------------------------
 function! s:indent_len(str)
 	return type(a:str) == 1 ? len(matchstr(a:str, '^\s*')) : 0
 endfunction
@@ -240,9 +259,21 @@ endfunction
 nnoremap <silent> gi :<c-u>call <SID>go_indent(v:count1, 1)<cr>
 nnoremap <silent> gI :<c-u>call <SID>go_indent(v:count1, -1)<cr>
 
-"--------------------------------------------------
-"    Colorscheme rotation
-"--------------------------------------------------
+" ----------------------------------------------------------------------------
+" ?ie | entire object
+" ----------------------------------------------------------------------------
+vnoremap <silent> ie gg0oG$
+onoremap <silent> ie :<C-U>execute "normal! m`" <Bar> keepjumps normal! ggVG<CR>
+
+" ----------------------------------------------------------------------------
+" ?il | inner line
+" ----------------------------------------------------------------------------
+vnoremap <silent> il <Esc>^vg_
+onoremap <silent> il :<C-U>normal! ^vg_<CR>
+
+" ----------------------------------------------------------------------------
+" Colorscheme rotation
+" ----------------------------------------------------------------------------
 function! s:rotate_colors()
 	if !exists("s:colors_list")
 		let s:colors_list =
