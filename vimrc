@@ -12,7 +12,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-git'
-Plugin 'jisaacks/GitGutter'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'junegunn/seoul256.vim'
 Plugin 'junegunn/limelight.vim'
@@ -137,6 +137,7 @@ omap / <Plug>(easymotion-tn)
 map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
+hi EasyMotionMoveHLDefault ctermfg=white ctermbg=blue
 
 " ----------------------------------------------------------------------------
 " Nerdtree
@@ -178,6 +179,24 @@ nmap M mL
 " ----------------------------------------------------------------------------
 let g:SignatureMap = { 'Leader' :  "gm" }
 let g:SignatureMarkOrder = "'\m"
+
+" ----------------------------------------------------------------------------
+" Goyo + Limelight
+" ----------------------------------------------------------------------------
+let g:goyo_width = 120
+function! GoyoBefore()
+  set noshowmode
+  set noshowcmd
+  Limelight
+endfunction
+
+function! GoyoAfter()
+  set showmode
+  set showcmd
+  Limelight!
+endfunction
+
+let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
 
 if has ("gui_running")
 	set guioptions=agim
