@@ -10,6 +10,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-git'
 Plugin 'jisaacks/GitGutter'
 Plugin 'scrooloose/nerdtree'
@@ -81,8 +82,8 @@ nnoremap <S-tab> gT
 " ----------------------------------------------------------------------------
 "	Moving lines
 " ----------------------------------------------------------------------------
-nnoremap <silent> <C-k> :execute ":move ".max([0,         line('.') - 2])<cr>
-nnoremap <silent> <C-j> :execute ":move ".min([line('$'), line('.') + 1])<cr>
+nnoremap <silent> <C-k> :execute ":move ".max([0,         line('.') - 2])<cr>==
+nnoremap <silent> <C-j> :execute ":move ".min([line('$'), line('.') + 1])<cr>==
 nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 vnoremap <silent> <C-k> :<C-U>execute "normal! gv:move ".max([0,         line("'<") - 2])."\n"<cr>gv
@@ -169,7 +170,6 @@ let g:airline_theme = 'serene'
 " Easyclip
 " ----------------------------------------------------------------------------
 let g:EasyClipUseSubstituteDefaults = 1
-let g:EasyClipAutoFormat = 1
 let g:EasyClipPreserveCursorPositionAfterYank = 1
 nmap M mL
 
