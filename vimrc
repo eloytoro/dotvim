@@ -30,10 +30,19 @@ call vundle#end()
 " Colorschemes
 " ----------------------------------------------------------------------------
 syntax enable
-"colorscheme distinguished
-"colorscheme BusyBee
-"colorscheme jellybeans
-colorscheme xoria256
+" Perfect so far --------------- "|
+ 	colorscheme xoria256         "|
+"   colorscheme lucius           "|
+" 	colorscheme distinguished    "|
+"	colorscheme herald           "|
+"	colorscheme seoul256         "|
+" Somewhat flawed -------------- "|
+" 	colorscheme Tomorrow-Night   "|
+" 	colorscheme Tomorrow         "|
+" 	colorscheme blackdust        "|
+" ------------------------------ "|
+"	set background = dark        "|
+" ------------------------------ "|
 
 " ----------------------------------------------------------------------------
 " Basic
@@ -201,9 +210,9 @@ let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
 if has ("gui_running")
 	set guioptions=agim
 	set background=dark
-	colorscheme Tomorrow-Night
+	colorscheme herald
 	set guicursor+=a:blinkon0
-	set guifont=Consolas:h13
+	set guifont=monofur\ 13
 endif
 
 set encoding=utf-8
