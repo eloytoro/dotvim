@@ -8,9 +8,11 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
+Plugin 'nanotech/jellybeans.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-git'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/nerdtree'
@@ -19,7 +21,7 @@ Plugin 'junegunn/limelight.vim'
 Plugin 'junegunn/goyo.vim'
 Plugin 'svermeulen/vim-easyclip'
 Plugin 'bling/vim-airline'
-Plugin 'xsbeats/vim-blade'
+Plugin '4dma/vim-blade'
 Plugin 'kshenoy/vim-signature'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'ervandew/supertab'
@@ -31,7 +33,8 @@ call vundle#end()
 " ----------------------------------------------------------------------------
 syntax enable
 " Perfect so far --------------- "|
- 	colorscheme xoria256         "|
+"	colorscheme xoria256         "|
+ 	colorscheme jellybeans       "|
 "   colorscheme lucius           "|
 " 	colorscheme distinguished    "|
 "	colorscheme herald           "|
@@ -82,12 +85,15 @@ autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade
 " Maps
 " ----------------------------------------------------------------------------
 map <F2> :source ~/.vimrc<CR>
-nmap <Space><Space> o<Esc>
+nmap _ o<Esc>
 inoremap {<CR> {<CR><CR>}<Up><Esc>"_cc
 inoremap (<CR> (<CR><CR>)<Up><Esc>"_cc
 nnoremap Q @q
+nnoremap q qq
 nnoremap <tab> gt
 nnoremap <S-tab> gT
+nmap cd :cd %:p:h<CR>
+
 " ----------------------------------------------------------------------------
 "	Moving lines
 " ----------------------------------------------------------------------------
@@ -101,16 +107,15 @@ vnoremap <silent> <C-h> <gv
 vnoremap <silent> <C-l> >gv
 vnoremap < <gv
 vnoremap > >gv
+
 " ----------------------------------------------------------------------------
 " switch L and H with ^ and $
 " ----------------------------------------------------------------------------
+omap H ^
 omap L $
 map H ^
 map L $
-" ----------------------------------------------------------------------------
-" unnecesary yank register overwrites
-" ----------------------------------------------------------------------------
-nmap cd :cd %:p:h<CR>
+
 " ----------------------------------------------------------------------------
 " window controls
 " ----------------------------------------------------------------------------
@@ -140,7 +145,7 @@ set visualbell
 " ----------------------------------------------------------------------------
 " Easymotion
 " ----------------------------------------------------------------------------
-map E <Plug>(easymotion-prefix)
+map  E <Plug>(easymotion-prefix)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 map  n <Plug>(easymotion-next)
@@ -151,7 +156,7 @@ hi EasyMotionMoveHLDefault ctermfg=white ctermbg=blue
 " ----------------------------------------------------------------------------
 " Nerdtree
 " ----------------------------------------------------------------------------
-map gn :NERDTreeToggle<CR>
+map <Leader>n :NERDTreeToggle<CR>
 
 " ----------------------------------------------------------------------------
 " Airline
@@ -210,7 +215,7 @@ let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
 if has ("gui_running")
 	set guioptions=agim
 	set background=dark
-	colorscheme herald
+	colorscheme kolor
 	set guicursor+=a:blinkon0
 	set guifont=monofur\ 13
 endif
