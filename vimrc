@@ -19,6 +19,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'junegunn/seoul256.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/vim-easy-align'
 Plugin 'svermeulen/vim-easyclip'
 Plugin 'bling/vim-airline'
 Plugin '4dma/vim-blade'
@@ -66,8 +67,8 @@ set wildmenu
 let g:html_indent_inctags = "html,body,head,tbody"
 let mapleader = ' '
 let maplocalleader = ' '
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set autoread
 set pastetoggle=<F9>
 set nosol
@@ -153,6 +154,12 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 hi EasyMotionMoveHLDefault ctermfg=white ctermbg=blue
+
+" ----------------------------------------------------------------------------
+" Nerdtree
+" ----------------------------------------------------------------------------
+vmap <Enter>   <Plug>(EasyAlign)
+nmap <Leader>a <Plug>(EasyAlign)
 
 " ----------------------------------------------------------------------------
 " Nerdtree
