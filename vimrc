@@ -8,7 +8,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-Plugin 'nanotech/jellybeans.vim'
+Plugin 'eloytoro/jellybeans.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
@@ -61,7 +61,6 @@ set scrolloff=2
 set wrap
 set linebreak
 set breakat-=*
-set cursorline
 set incsearch
 set wildmenu
 let g:html_indent_inctags = "html,body,head,tbody"
@@ -73,6 +72,12 @@ set autoread
 set pastetoggle=<F9>
 set nosol
 set expandtab smarttab
+set virtualedit=block
+set backupdir=~/.vim/backup
+set directory=~/.vim/backup
+set laststatus=2
+set pastetoggle=<F4>
+set splitbelow
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -119,7 +124,7 @@ map H ^
 map L $
 
 " ----------------------------------------------------------------------------
-" window controls
+" Window Controls
 " ----------------------------------------------------------------------------
 nmap gh <C-w>h
 nmap gj <C-w>j
@@ -129,20 +134,6 @@ map <C-Down> 2<C-W>-
 map <C-Up> 2<C-W>+
 map <C-Right> 2<C-W>>
 map <C-Left> 2<C-W><
-
-" ----------------------------------------------------------------------------
-" tpope
-" ----------------------------------------------------------------------------
-set complete-=i
-set dictionary+=/usr/share/dict/words
-set virtualedit=block
-set backupdir=~/.vim/backup
-set directory=~/.vim/backup
-set laststatus=2
-set pastetoggle=<F4>
-set smarttab
-set splitbelow
-set visualbell
 
 " ----------------------------------------------------------------------------
 " Easymotion
@@ -156,7 +147,12 @@ let g:EasyMotion_smartcase = 1
 hi EasyMotionMoveHLDefault ctermfg=white ctermbg=blue
 
 " ----------------------------------------------------------------------------
-" Nerdtree
+" Status
+" ----------------------------------------------------------------------------
+nmap gs :Gstatus<CR>
+
+" ----------------------------------------------------------------------------
+" EasyAlign
 " ----------------------------------------------------------------------------
 vmap <Enter>   <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
