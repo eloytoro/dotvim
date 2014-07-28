@@ -2,4 +2,3 @@
 /plugin/
 *.swp
 bundle/*
-!bundle/Vundle.vim

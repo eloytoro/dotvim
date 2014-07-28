@@ -68,7 +68,6 @@ let maplocalleader = ' '
 set shiftwidth=4
 set tabstop=4
 set autoread
-set pastetoggle=<F9>
 set nosol
 set smarttab
 set virtualedit=block
@@ -78,6 +77,7 @@ set laststatus=2
 set pastetoggle=<F4>
 set splitbelow
 set cursorline
+set showbreak=\ ~\ 
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -92,7 +92,6 @@ autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade
 "  Tabs
 " ----------------------------------------------------------------------------
 set list listchars=tab:¦\ ,trail:·,extends:»,precedes:«,nbsp:×
-hi SpecialKey ctermbg=233 ctermfg=234
 
 " ----------------------------------------------------------------------------
 " Maps
@@ -102,7 +101,6 @@ nmap _ o<Esc>
 inoremap {<CR> {<CR><CR>}<Up><Esc>"_cc
 inoremap (<CR> (<CR><CR>)<Up><Esc>"_cc
 nnoremap Q @q
-nnoremap q qq
 nnoremap <tab> gt
 nnoremap <S-tab> gT
 nmap cd :cd %:p:h<CR>
@@ -144,11 +142,17 @@ map <C-Left> 2<C-W><
 " ----------------------------------------------------------------------------
 " Easymotion
 " ----------------------------------------------------------------------------
-map  E <Plug>(easymotion-prefix)
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+map  E    <Plug>(easymotion-prefix)
+map  /    <Plug>(easymotion-sn)
+omap /    <Plug>(easymotion-tn)
+map  Ef   <Plug>(easymotion-s)
+omap Ef   <Plug>(easymotion-s)
+map  El   <Plug>(easymotion-lineanywhere)
+omap El   <Plug>(easymotion-lineanywhere)
+map  n    <Plug>(easymotion-next)
+map  N    <Plug>(easymotion-prev)
+map  <CR> <Plug>(easymotion-repeat)
+let g:EasyMotion_enter_jump_first = 1
 let g:EasyMotion_smartcase = 1
 hi EasyMotionMoveHLDefault ctermfg=white ctermbg=blue
 
@@ -160,8 +164,7 @@ nmap gs :Gstatus<CR>
 " ----------------------------------------------------------------------------
 " EasyAlign
 " ----------------------------------------------------------------------------
-vmap <Enter>   <Plug>(EasyAlign)
-nmap <Leader>a <Plug>(EasyAlign)
+vmap <Enter> <Plug>(EasyAlign)
 
 " ----------------------------------------------------------------------------
 " Nerdtree
