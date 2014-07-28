@@ -32,20 +32,20 @@ call vundle#end()
 " Colorschemes
 " ----------------------------------------------------------------------------
 syntax enable
-" Perfect so far --------------- "|
-"   colorscheme xoria256         "|
-	colorscheme jellybeans       "|
-"   colorscheme lucius           "|
-"   colorscheme distinguished    "|
-"   colorscheme herald           "|
-"   colorscheme seoul256         "|
-" Somewhat flawed -------------- "|
-"   colorscheme Tomorrow-Night   "|
-"   colorscheme Tomorrow         "|
-"   colorscheme blackdust        "|
-" ------------------------------ "|
-"   set background = dark        "|
-" ------------------------------ "|
+" Perfect so far ------------ "|
+"colorscheme xoria256         "|
+ colorscheme jellybeans       "|
+"colorscheme lucius           "|
+"colorscheme distinguished    "|
+"colorscheme herald           "|
+"colorscheme seoul256         "|
+" Somewhat flawed ----------- "|
+"colorscheme Tomorrow-Night   "|
+"colorscheme Tomorrow         "|
+"colorscheme blackdust        "|
+" --------------------------- "|
+"set background=dark          "|
+" --------------------------- "|
 
 " ----------------------------------------------------------------------------
 " Basic
@@ -219,13 +219,15 @@ let g:goyo_width = 120
 function! GoyoBefore()
 	set noshowmode
 	set noshowcmd
-	Limelight
+	set scrolloff=999
+	" Limelight
 endfunction
 
 function! GoyoAfter()
 	set showmode
 	set showcmd
-	Limelight!
+	set scrolloff=2
+	" Limelight!
 endfunction
 
 let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
