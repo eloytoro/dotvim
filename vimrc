@@ -9,6 +9,9 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 Plugin 'eloytoro/jellybeans.vim'
+Plugin 'eloytoro/xoria256'
+Plugin 'eloytoro/web-snippets'
+Plugin 'SirVer/ultisnips'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
@@ -65,8 +68,9 @@ set wildmenu
 let g:html_indent_inctags = "html,body,head,tbody"
 let mapleader = ' '
 let maplocalleader = ' '
-set shiftwidth=4
-set tabstop=4
+set expandtab
+set shiftwidth=2
+set tabstop=2
 set autoread
 set nosol
 set smarttab
@@ -204,6 +208,7 @@ let g:airline_theme = 'serene'
 " ----------------------------------------------------------------------------
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipPreserveCursorPositionAfterYank = 1
+let g:EasyClipAutoFormat = 1
 nmap M mL
 
 " ----------------------------------------------------------------------------
