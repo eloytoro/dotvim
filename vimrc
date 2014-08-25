@@ -12,6 +12,7 @@ Plugin 'eloytoro/jellybeans.vim'
 Plugin 'eloytoro/xoria256'
 Plugin 'eloytoro/web-snippets'
 Plugin 'SirVer/ultisnips'
+Plugin 'pangloss/vim-javascript'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
@@ -35,20 +36,13 @@ call vundle#end()
 " Colorschemes
 " ----------------------------------------------------------------------------
 syntax enable
-" Perfect so far ------------ "|
-"colorscheme xoria256         "|
- colorscheme jellybeans       "|
-"colorscheme lucius           "|
-"colorscheme distinguished    "|
-"colorscheme herald           "|
-"colorscheme seoul256         "|
-" Somewhat flawed ----------- "|
-"colorscheme Tomorrow-Night   "|
-"colorscheme Tomorrow         "|
-"colorscheme blackdust        "|
-" --------------------------- "|
-"set background=dark          "|
-" --------------------------- "|
+"colorscheme xoria256
+"colorscheme jellybeans
+let g:seoul256_background = 234
+colorscheme seoul256
+"colorscheme distinguished
+
+"set background = dark
 
 " ----------------------------------------------------------------------------
 " Basic
@@ -68,9 +62,8 @@ set wildmenu
 let g:html_indent_inctags = "html,body,head,tbody"
 let mapleader = ' '
 let maplocalleader = ' '
-set expandtab
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 set autoread
 set nosol
 set smarttab
@@ -101,7 +94,8 @@ set list listchars=tab:¦\ ,trail:·,extends:»,precedes:«,nbsp:×
 " Maps
 " ----------------------------------------------------------------------------
 map <F2> :source ~/.vimrc<CR>
-nmap _ o<Esc>
+nmap - o<Esc>
+nmap _ O<Esc>
 inoremap {<CR> {<CR><CR>}<Up><Esc>"_cc
 inoremap (<CR> (<CR><CR>)<Up><Esc>"_cc
 nnoremap Q @q
