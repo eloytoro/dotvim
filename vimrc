@@ -325,6 +325,36 @@ vnoremap <silent> il <Esc>^vg_
 onoremap <silent> il :<C-U>normal! ^vg_<CR>
 
 " ----------------------------------------------------------------------------
+" ?i_ ?a_ ?i. ?a. ?i, ?a, ?i/
+" ----------------------------------------------------------------------------
+function! s:between_the_bars(incll, inclr, char)
+  let cursor = col('.')
+  let line   = getline('.')
+  let before = line[0 : cursor - 1]
+  let after  = line[cursor : -1]
+  let [b, e] = [cursor, cursor]
+
+  let i = stridx(join(reverse(split(before, '\zs')), ''), a:char)
+  if i >= 0
+    let b = len(before) - i + (a:incll ? 0 : 1)
+  end
+
+  let i = stridx(after, a:char)
+  if i >= 0
+    let e = cursor + i + 1 - (a:inclr ? 0 : 1)
+  end
+
+  execute printf("normal! %d|v%d|", b, e)
+endfunction
+
+for [s:c, s:l] in items({'_': 0, '.': 0, ',': 0, '/': 1})
+  execute printf("vnoremap <silent> i%s :<C-U>call <SID>between_the_bars(0, 0, '%s')<CR>", s:c, s:c)
+  execute printf("onoremap <silent> i%s :<C-U>call <SID>between_the_bars(0, 0, '%s')<CR>", s:c, s:c)
+  execute printf("vnoremap <silent> a%s :<C-U>call <SID>between_the_bars(%s, 1, '%s')<CR>", s:c, s:l, s:c)
+  execute printf("onoremap <silent> a%s :<C-U>call <SID>between_the_bars(%s, 1, '%s')<CR>", s:c, s:l, s:c)
+endfor
+
+" ----------------------------------------------------------------------------
 " IndentLine
 " ----------------------------------------------------------------------------
 let g:indentLine_color_term = 238
