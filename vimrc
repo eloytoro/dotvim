@@ -4,43 +4,41 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'eloytoro/jellybeans.vim'
-Plugin 'eloytoro/xoria256'
-Plugin 'eloytoro/web-snippets'
-Plugin 'SirVer/ultisnips'
-Plugin 'pangloss/vim-javascript'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'junegunn/seoul256.vim'
-Plugin 'junegunn/limelight.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'svermeulen/vim-easyclip'
-Plugin 'bling/vim-airline'
-Plugin '4dma/vim-blade'
-Plugin 'kshenoy/vim-signature'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'ervandew/supertab'
-Plugin 'Yggdroot/indentLine'
+Plug 'eloytoro/jellybeans.vim'
+Plug 'eloytoro/xoria256'
+Plug 'eloytoro/web-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-haml'
+Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdtree'
+Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'svermeulen/vim-easyclip'
+Plug 'bling/vim-airline'
+Plug '4dma/vim-blade'
+Plug 'kshenoy/vim-signature'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'ervandew/supertab'
+Plug 'Yggdroot/indentLine'
+Plug 'kien/ctrlp.vim'
 
-call vundle#end()
+call plug#end()
 
 " ----------------------------------------------------------------------------
 " Colorschemes
 " ----------------------------------------------------------------------------
 syntax enable
 "colorscheme xoria256
-"colorscheme jellybeans
-let g:seoul256_background = 234
-colorscheme seoul256
+colorscheme jellybeans
+"let g:seoul256_background = 234
+"colorscheme seoul256
 "colorscheme distinguished
 
 "set background = dark
@@ -63,8 +61,8 @@ set wildmenu
 let g:html_indent_inctags = "html,body,head,tbody"
 let mapleader = ' '
 let maplocalleader = ' '
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 set autoread
 set nosol
 set expandtab smarttab
@@ -141,19 +139,21 @@ map <C-Left> 2<C-W><
 " ----------------------------------------------------------------------------
 " Easymotion
 " ----------------------------------------------------------------------------
-map  E    <Plug>(easymotion-prefix)
-map  /    <Plug>(easymotion-sn)
-omap /    <Plug>(easymotion-tn)
-map  Ef   <Plug>(easymotion-s)
-omap Ef   <Plug>(easymotion-s)
-map  El   <Plug>(easymotion-lineanywhere)
-omap El   <Plug>(easymotion-lineanywhere)
-map  n    <Plug>(easymotion-next)
-map  N    <Plug>(easymotion-prev)
-map  <CR> <Plug>(easymotion-repeat)
-let g:EasyMotion_enter_jump_first = 1
-let g:EasyMotion_smartcase = 1
-hi EasyMotionMoveHLDefault ctermfg=white ctermbg=blue
+map  <Leader>  <Plug>(easymotion-prefix)
+map  /         <Plug>(easymotion-sn)
+omap /         <Plug>(easymotion-tn)
+map  <Leader>l <Plug>(easymotion-lineanywhere)
+omap <Leader>l <Plug>(easymotion-lineanywhere)
+map  <Leader>w <Plug>(easymotion-bd-w)
+omap <Leader>w <Plug>(easymotion-bd-w)
+map  <Leader>W <Plug>(easymotion-bd-W)
+omap <Leader>W <Plug>(easymotion-bd-W)
+map  n         <Plug>(easymotion-next)
+map  N         <Plug>(easymotion-prev)
+map  <CR>      <Plug>(easymotion-repeat)
+let  g:EasyMotion_enter_jump_first = 1
+let  g:EasyMotion_smartcase = 1
+hi   EasyMotionMoveHLDefault ctermfg=white ctermbg=black
 
 " ----------------------------------------------------------------------------
 " Status
@@ -171,17 +171,12 @@ vmap <Enter> <Plug>(EasyAlign)
 map <Leader>n :NERDTreeToggle<CR>
 
 " ----------------------------------------------------------------------------
-" IndentLine
-" ----------------------------------------------------------------------------
-let g:indentLine_color_term = 234
-
-" ----------------------------------------------------------------------------
 " Airline
 " ----------------------------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+    let g:airline_symbols = {}
 endif
 let g:airline_left_sep = '»'
 let g:airline_left_sep = '>'
@@ -212,38 +207,16 @@ nmap M mL
 let g:SignatureMap = { 'Leader' :  "gm" }
 let g:SignatureMarkOrder = "'\m"
 
-" ----------------------------------------------------------------------------
-" Goyo + Limelight
-" ----------------------------------------------------------------------------
-let g:goyo_width = 120
-function! GoyoBefore()
-  set noshowmode
-  set noshowcmd
-  set scrolloff=999
-  " Limelight
-endfunction
-
-function! GoyoAfter()
-  set showmode
-  set showcmd
-  set scrolloff=2
-  " Limelight!
-endfunction
-
-let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
-
 if has ("gui_running")
-  set guioptions=agim
-  set background=dark
-  colorscheme kolor
-  set guicursor+=a:blinkon0
-  set guifont=monofur\ 13
+    set guioptions=agim
+    set guicursor+=a:blinkon0
+    set guifont=Inconsolata\ 13
 endif
 
 set encoding=utf-8
 
 function! s:hl()
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 command! HL call <SID>hl()
 
@@ -251,39 +224,39 @@ command! HL call <SID>hl()
 " Text Objects (indent, line)
 " ----------------------------------------------------------------------------
 function! s:indent_len(str)
-  return type(a:str) == 1 ? len(matchstr(a:str, '^\s*')) : 0
+    return type(a:str) == 1 ? len(matchstr(a:str, '^\s*')) : 0
 endfunction
 
 function! s:indent_object(op, skip_blank, b, e, bd, ed)
-  let i = min([s:indent_len(getline(a:b)), s:indent_len(getline(a:e))])
-  let x = line('$')
-  let d = [a:b, a:e]
+    let i = min([s:indent_len(getline(a:b)), s:indent_len(getline(a:e))])
+    let x = line('$')
+    let d = [a:b, a:e]
 
-  if i == 0 && empty(getline(a:b)) && empty(getline(a:e))
-    let [b, e] = [a:b, a:e]
-    while b > 0 && e <= line('$')
-      let b -= 1
-      let e += 1
-      let i = min(filter(map([b, e], 's:indent_len(getline(v:val))'), 'v:val != 0'))
-      if i > 0
-        break
-      endif
-    endwhile
-  endif
+    if i == 0 && empty(getline(a:b)) && empty(getline(a:e))
+        let [b, e] = [a:b, a:e]
+        while b > 0 && e <= line('$')
+            let b -= 1
+            let e += 1
+            let i = min(filter(map([b, e], 's:indent_len(getline(v:val))'), 'v:val != 0'))
+            if i > 0
+                break
+            endif
+        endwhile
+    endif
 
-  for triple in [[0, 'd[o] > 1', -1], [1, 'd[o] < x', +1]]
-    let [o, ev, df] = triple
+    for triple in [[0, 'd[o] > 1', -1], [1, 'd[o] < x', +1]]
+        let [o, ev, df] = triple
 
-    while eval(ev)
-      let line = getline(d[o] + df)
-      let idt = s:indent_len(line)
+        while eval(ev)
+            let line = getline(d[o] + df)
+            let idt = s:indent_len(line)
 
-      if eval('idt '.a:op.' i') && (a:skip_blank || !empty(line)) || (a:skip_blank && empty(line))
-        let d[o] += df
-      else | break | end
-    endwhile
-  endfor
-  execute printf('normal! %dGV%dG', max([1, d[0] + a:bd]), min([x, d[1] + a:ed]))
+            if eval('idt '.a:op.' i') && (a:skip_blank || !empty(line)) || (a:skip_blank && empty(line))
+                let d[o] += df
+            else | break | end
+        endwhile
+    endfor
+    execute printf('normal! %dGV%dG', max([1, d[0] + a:bd]), min([x, d[1] + a:ed]))
 endfunction
 vnoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line("'<"), line("'>"), 0, 0)<cr>
 onoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.'), 0, 0)<cr>
@@ -292,22 +265,22 @@ onoremap <silent> ai :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.')
 vnoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line("'<"), line("'>"), 0, 0)<cr>
 onoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line('.'), line('.'), 0, 0)<cr>
 function! s:go_indent(times, dir)
-  for _ in range(a:times)
-    let l = line('.')
-    let x = line('$')
-    let i = s:indent_len(getline(l))
-    let e = empty(getline(l))
+    for _ in range(a:times)
+        let l = line('.')
+        let x = line('$')
+        let i = s:indent_len(getline(l))
+        let e = empty(getline(l))
 
-    while l >= 1 && l <= x
-      let line = getline(l + a:dir)
-      let l += a:dir
-      if s:indent_len(line) != i || empty(line) != e
-        break
-      endif
-    endwhile
-    let l = min([max([1, l]), x])
-    execute 'normal! '. l .'G^'
-  endfor
+        while l >= 1 && l <= x
+            let line = getline(l + a:dir)
+            let l += a:dir
+            if s:indent_len(line) != i || empty(line) != e
+                break
+            endif
+        endwhile
+        let l = min([max([1, l]), x])
+        execute 'normal! '. l .'G^'
+    endfor
 endfunction
 nnoremap <silent> gi :<c-u>call <SID>go_indent(v:count1, 1)<cr>
 nnoremap <silent> gI :<c-u>call <SID>go_indent(v:count1, -1)<cr>
@@ -327,34 +300,72 @@ onoremap <silent> il :<C-U>normal! ^vg_<CR>
 " ----------------------------------------------------------------------------
 " ?i_ ?a_ ?i. ?a. ?i, ?a, ?i/
 " ----------------------------------------------------------------------------
-function! s:between_the_bars(incll, inclr, char)
-  let cursor = col('.')
-  let line   = getline('.')
-  let before = line[0 : cursor - 1]
-  let after  = line[cursor : -1]
-  let [b, e] = [cursor, cursor]
+function! s:between_the_chars(incll, inclr, char, vis)
+    let cursor = col('.')
+    let line   = getline('.')
+    let before = line[0 : cursor - 1]
+    let after  = line[cursor : -1]
+    let [b, e] = [cursor, cursor]
+    let s:btc  = 1
 
-  let i = stridx(join(reverse(split(before, '\zs')), ''), a:char)
-  if i >= 0
-    let b = len(before) - i + (a:incll ? 0 : 1)
-  end
+    try
+        let i = stridx(join(reverse(split(before, '\zs')), ''), a:char)
+        if i < 0 | throw 'exit' | end
+        let b = len(before) - i + (a:incll ? 0 : 1)
 
-  let i = stridx(after, a:char)
-  if i >= 0
-    let e = cursor + i + 1 - (a:inclr ? 0 : 1)
-  end
+        let i = stridx(after, a:char)
+        if i < 0 | throw 'exit' | end
+        let e = cursor + i + 1 - (a:inclr ? 0 : 1)
 
-  execute printf("normal! %d|v%d|", b, e)
+        execute printf("normal! 0%dlhv0%dlh", b, e)
+    catch 'exit'
+        let s:btc = 0
+        if a:vis
+            normal! gv
+        endif
+        " Undo invalid change on repeat
+        if v:operator == 'c'
+            let &l:undolevels = &l:undolevels
+            augroup btc_undo_invalid_change
+                autocmd InsertLeave <buffer> execute 'normal! u' | autocmd! btc_undo_invalid_change
+            augroup END
+        endif
+    finally
+        " Cleanup command history
+        if histget(':', -1) =~ '<SNR>[0-9_]*between_the_chars('
+            call histdel(':', -1)
+        endif
+        echo
+    endtry
 endfunction
 
+" To exit insert mode immediately on fail
+function! s:btc_after()
+    if s:btc
+        return ''
+    else
+        autocmd! btc_undo_invalid_change
+        return "\<esc>" . (col('.') > 1 ? 'l' : '')
+    endif
+endfunction
+
+noremap         <Plug>(BTC) <c-l>
+inoremap <expr> <Plug>(BTC) <sid>btc_after()
+
 for [s:c, s:l] in items({'_': 0, '.': 0, ',': 0, '/': 1})
-  execute printf("vnoremap <silent> i%s :<C-U>call <SID>between_the_bars(0, 0, '%s')<CR>", s:c, s:c)
-  execute printf("onoremap <silent> i%s :<C-U>call <SID>between_the_bars(0, 0, '%s')<CR>", s:c, s:c)
-  execute printf("vnoremap <silent> a%s :<C-U>call <SID>between_the_bars(%s, 1, '%s')<CR>", s:c, s:l, s:c)
-  execute printf("onoremap <silent> a%s :<C-U>call <SID>between_the_bars(%s, 1, '%s')<CR>", s:c, s:l, s:c)
+    execute printf("vmap <silent> i%s :<C-U>call <SID>between_the_chars(0,  0, '%s', 1)<CR><Plug>(BTC)", s:c, s:c)
+    execute printf("omap <silent> i%s :<C-U>call <SID>between_the_chars(0,  0, '%s', 0)<CR><Plug>(BTC)", s:c, s:c)
+    execute printf("vmap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 1)<CR><Plug>(BTC)", s:c, s:l, s:c)
+    execute printf("omap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 0)<CR><Plug>(BTC)", s:c, s:l, s:c)
 endfor
 
 " ----------------------------------------------------------------------------
 " IndentLine
 " ----------------------------------------------------------------------------
-let g:indentLine_color_term = 238
+let g:indentLine_color_term = 234
+let g:indentLine_char = '¦'
+
+" ----------------------------------------------------------------------------
+"  CtrlP
+" ----------------------------------------------------------------------------
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components/*,*/node_modules/*
