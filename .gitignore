@@ -1,4 +1,2 @@
-/.net*
-/plugin/
 *.swp
-bundle/*
+plugged/*
