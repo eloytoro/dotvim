@@ -74,6 +74,7 @@ set pastetoggle=<F4>
 set splitbelow
 set cursorline
 set showbreak=\ ~\ 
+set encoding=utf-8
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -101,6 +102,8 @@ nnoremap Q @q
 nnoremap <tab> gt
 nnoremap <S-tab> gT
 nmap cd :cd %:p:h<CR>
+noremap <C-F> <C-D>
+noremap <C-B> <C-U>
 
 " ----------------------------------------------------------------------------
 "   Moving lines
@@ -213,12 +216,27 @@ if has ("gui_running")
     set guifont=Inconsolata\ 13
 endif
 
-set encoding=utf-8
+" ----------------------------------------------------------------------------
+" IndentLine
+" ----------------------------------------------------------------------------
+let g:indentLine_color_term = 234
+let g:indentLine_char = '¦'
+
+" ----------------------------------------------------------------------------
+"  CtrlP
+" ----------------------------------------------------------------------------
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components/*,*/node_modules/*
 
 function! s:hl()
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 command! HL call <SID>hl()
+
+" ----------------------------------------------------------------------------
+"  GitGutter
+" ----------------------------------------------------------------------------
+nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
+nmap <leader>gp <Plug>GitGutterPreviewHunk
 
 " ----------------------------------------------------------------------------
 " Text Objects (indent, line)
@@ -358,14 +376,3 @@ for [s:c, s:l] in items({'_': 0, '.': 0, ',': 0, '/': 1})
     execute printf("vmap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 1)<CR><Plug>(BTC)", s:c, s:l, s:c)
     execute printf("omap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 0)<CR><Plug>(BTC)", s:c, s:l, s:c)
 endfor
-
-" ----------------------------------------------------------------------------
-" IndentLine
-" ----------------------------------------------------------------------------
-let g:indentLine_color_term = 234
-let g:indentLine_char = '¦'
-
-" ----------------------------------------------------------------------------
-"  CtrlP
-" ----------------------------------------------------------------------------
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components/*,*/node_modules/*
