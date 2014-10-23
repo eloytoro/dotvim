@@ -15,7 +15,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-haml'
+Plug 'cakebaker/scss-syntax.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/seoul256.vim'
@@ -226,6 +226,8 @@ let g:indentLine_char = '¦'
 "  CtrlP
 " ----------------------------------------------------------------------------
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components/*,*/node_modules/*
+let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_mru_files = 1
 
 function! s:hl()
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
