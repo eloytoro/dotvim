@@ -1,10 +1,7 @@
-" ----------------------------------------------------------------------------
-" Vundle
-" ----------------------------------------------------------------------------
 set nocompatible
 filetype off
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/bundle')
 
 Plug 'eloytoro/jellybeans.vim'
 Plug 'eloytoro/xoria256'
@@ -25,9 +22,9 @@ Plug 'bling/vim-airline'
 Plug '4dma/vim-blade'
 Plug 'kshenoy/vim-signature'
 Plug 'Lokaltog/vim-easymotion'
-Plug 'ervandew/supertab'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
+Plug 'Raimondi/delimitMate'
 
 call plug#end()
 
@@ -96,8 +93,6 @@ set list listchars=tab:¦\ ,trail:·,extends:»,precedes:«,nbsp:×
 map <F2> :source ~/.vimrc<CR>
 nmap - o<Esc>
 nmap _ O<Esc>
-inoremap {<CR> {<CR><CR>}<Up><Esc>"_cc
-inoremap (<CR> (<CR><CR>)<Up><Esc>"_cc
 nnoremap Q @q
 nnoremap <tab> gt
 nnoremap <S-tab> gT
@@ -142,7 +137,7 @@ map <C-Left> 2<C-W><
 " ----------------------------------------------------------------------------
 " Easymotion
 " ----------------------------------------------------------------------------
-map  <Leader>  <Plug>(easymotion-prefix)
+let g:EasyMotion_do_mapping = 0
 map  /         <Plug>(easymotion-sn)
 omap /         <Plug>(easymotion-tn)
 map  <Leader>l <Plug>(easymotion-lineanywhere)
@@ -151,12 +146,16 @@ map  <Leader>w <Plug>(easymotion-bd-w)
 omap <Leader>w <Plug>(easymotion-bd-w)
 map  <Leader>W <Plug>(easymotion-bd-W)
 omap <Leader>W <Plug>(easymotion-bd-W)
+map  <Leader>f <Plug>(easymotion-s)
+omap <Leader>f <Plug>(easymotion-s)
+map  <Leader>j <Plug>(easymotion-bd-jk)
+omap <Leader>j <Plug>(easymotion-bd-jk)
 map  n         <Plug>(easymotion-next)
 map  N         <Plug>(easymotion-prev)
 map  <CR>      <Plug>(easymotion-repeat)
 let  g:EasyMotion_enter_jump_first = 1
 let  g:EasyMotion_smartcase = 1
-hi   EasyMotionMoveHLDefault ctermfg=white ctermbg=black
+hi   EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow
 
 " ----------------------------------------------------------------------------
 " Status
@@ -207,8 +206,8 @@ nmap M mL
 " ----------------------------------------------------------------------------
 " Signature
 " ----------------------------------------------------------------------------
-let g:SignatureMap = { 'Leader' :  "gm" }
-let g:SignatureMarkOrder = "'\m"
+let g:SignatureMap = { 'Leader' :  "zm" }
+let g:SignatureMarkOrder = ">\m"
 
 if has ("gui_running")
     set guioptions=agim
@@ -228,6 +227,19 @@ let g:indentLine_char = '¦'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components/*,*/node_modules/*
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
+
+
+" ----------------------------------------------------------------------------
+"   DelimitMate
+" ----------------------------------------------------------------------------
+let delimitMate_expand_cr = 2
+let delimitMate_expand_space = 1
+let delimitMate_jump_expansion = 1
+
+" ----------------------------------------------------------------------------
+"   UltiSnips
+" ----------------------------------------------------------------------------
+let g:UltiSnipsExpandTrigger="<c-e>"
 
 function! s:hl()
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
@@ -378,3 +390,18 @@ for [s:c, s:l] in items({'_': 0, '.': 0, ',': 0, '/': 1})
     execute printf("vmap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 1)<CR><Plug>(BTC)", s:c, s:l, s:c)
     execute printf("omap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 0)<CR><Plug>(BTC)", s:c, s:l, s:c)
 endfor
+
+" ----------------------------------------------------------------------------
+" <tab> / <s-tab> / <c-v><tab> | super-duper-tab
+" ----------------------------------------------------------------------------
+function! s:super_duper_tab(k, o)
+    let line = getline('.')
+    let col = col('.') - 2
+    if !empty(line) && line[col] =~ '\k' && line[col + 1] !~ '\k'
+        return a:k
+    else
+        return a:o
+    endif
+endfunction
+imap <expr> <tab> <SID>super_duper_tab("\<c-n>", "\<tab>")
+imap <expr> <s-tab> <SID>super_duper_tab("\<c-p>", "\<s-tab>")
