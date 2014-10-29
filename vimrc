@@ -91,17 +91,27 @@ set list listchars=tab:¦\ ,trail:·,extends:»,precedes:«,nbsp:×
 " Maps
 " ----------------------------------------------------------------------------
 map <F2> :source ~/.vimrc<CR>
+" For inserting new lines
 nmap - o<Esc>
 nmap _ O<Esc>
+" Lazy macro creation
 nnoremap Q @q
+" <tab> for tab switcing
 nnoremap <tab> gt
 nnoremap <S-tab> gT
+" cd changes directory to the current file's
 nmap cd :cd %:p:h<CR>
+" Retain cursor position on page scrolling
 noremap <C-F> <C-D>
 noremap <C-B> <C-U>
+" switch L and H with ^ and $
+omap H ^
+omap L $
+map H ^
+map L $
 
 " ----------------------------------------------------------------------------
-"   Moving lines
+"   Moving lines | for quick line swapping purposes
 " ----------------------------------------------------------------------------
 nnoremap <silent> <C-k> :execute ":move ".max([0,         line('.') - 2])<cr>==
 nnoremap <silent> <C-j> :execute ":move ".min([line('$'), line('.') + 1])<cr>==
@@ -115,15 +125,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " ----------------------------------------------------------------------------
-" switch L and H with ^ and $
-" ----------------------------------------------------------------------------
-omap H ^
-omap L $
-map H ^
-map L $
-
-" ----------------------------------------------------------------------------
-" Window Controls
+" Window Controls | much like hjkl but using the g prefix
 " ----------------------------------------------------------------------------
 nmap gh <C-w>h
 nmap gj <C-w>j
@@ -158,7 +160,7 @@ let  g:EasyMotion_smartcase = 1
 hi   EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow
 
 " ----------------------------------------------------------------------------
-" Status
+" Git
 " ----------------------------------------------------------------------------
 nmap gs :Gstatus<CR>
 
@@ -209,17 +211,12 @@ nmap M mL
 let g:SignatureMap = { 'Leader' :  "zm" }
 let g:SignatureMarkOrder = ">\m"
 
-if has ("gui_running")
-    set guioptions=agim
-    set guicursor+=a:blinkon0
-    set guifont=Inconsolata\ 13
-endif
-
 " ----------------------------------------------------------------------------
 " IndentLine
 " ----------------------------------------------------------------------------
 let g:indentLine_color_term = 234
 let g:indentLine_char = '¦'
+let g:indentLine_faster = 1
 
 " ----------------------------------------------------------------------------
 "  CtrlP
@@ -228,29 +225,37 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
 
-
 " ----------------------------------------------------------------------------
 "   DelimitMate
 " ----------------------------------------------------------------------------
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
-let delimitMate_jump_expansion = 1
 
 " ----------------------------------------------------------------------------
 "   UltiSnips
 " ----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger="<c-e>"
 
-function! s:hl()
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-command! HL call <SID>hl()
-
 " ----------------------------------------------------------------------------
 "  GitGutter
 " ----------------------------------------------------------------------------
 nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
+
+" ----------------------------------------------------------------------------
+" <tab> / <s-tab> / <c-v><tab> | super-duper-tab
+" ----------------------------------------------------------------------------
+function! s:super_duper_tab(k, o)
+    let line = getline('.')
+    let col = col('.') - 2
+    if !empty(line) && line[col] =~ '\k' && line[col + 1] !~ '\k'
+        return a:k
+    else
+        return a:o
+    endif
+endfunction
+imap <expr> <tab> <SID>super_duper_tab("\<c-n>", "\<tab>")
+imap <expr> <s-tab> <SID>super_duper_tab("\<c-p>", "\<s-tab>")
 
 " ----------------------------------------------------------------------------
 " Text Objects (indent, line)
@@ -391,17 +396,13 @@ for [s:c, s:l] in items({'_': 0, '.': 0, ',': 0, '/': 1})
     execute printf("omap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 0)<CR><Plug>(BTC)", s:c, s:l, s:c)
 endfor
 
-" ----------------------------------------------------------------------------
-" <tab> / <s-tab> / <c-v><tab> | super-duper-tab
-" ----------------------------------------------------------------------------
-function! s:super_duper_tab(k, o)
-    let line = getline('.')
-    let col = col('.') - 2
-    if !empty(line) && line[col] =~ '\k' && line[col + 1] !~ '\k'
-        return a:k
-    else
-        return a:o
-    endif
-endfunction
-imap <expr> <tab> <SID>super_duper_tab("\<c-n>", "\<tab>")
-imap <expr> <s-tab> <SID>super_duper_tab("\<c-p>", "\<s-tab>")
+if has ("gui_running")
+    set guioptions=agim
+    set guicursor+=a:blinkon0
+    set guifont=Inconsolata\ 13
+endif
+
+function! s:hl()
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+command! HL call <SID>hl()
