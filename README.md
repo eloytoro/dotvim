@@ -20,12 +20,12 @@ My plugin folder contains some custom tools that add some functionalities that o
 ###objects.vim
 Written by @junegunn
 Adds lots of useful vim objects for quick editing
--ii / ai: stands for inner indent and around indent
--io: strict indent selection
--ie: entire object (the whole document)
--il: inner line
--i\_ / a\_ / i. / a. / i, / a,: special character surroundings
--]i / [i: transverses the document by indent level
+- ii / ai: stands for inner indent and around indent
+- io: strict indent selection
+- ie: entire object (the whole document)
+- il: inner line
+- i\_ / a\_ / i. / a. / i, / a,: special character surroundings
+- ]i / [i: transverses the document by indent level
 ###super-tab.vim (super-duper-tab)
 Originally written by @junegunn
 Adds tab completion to insert mode, compatible with UltiSnips expand tab key
