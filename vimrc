@@ -113,10 +113,10 @@ nmap cd :cd %:p:h<CR>
 noremap <C-F> <C-D>
 noremap <C-B> <C-U>
 " switch L and H with ^ and $
-omap H ^
-omap L $
-map H ^
-map L $
+onoremap H ^
+onoremap L $
+nnoremap H ^
+nnoremap L $
 
 " ----------------------------------------------------------------------------
 "   Moving lines | for quick line swapping purposes
@@ -216,8 +216,8 @@ nmap M mL
 " ----------------------------------------------------------------------------
 " Signature
 " ----------------------------------------------------------------------------
-let g:SignatureMap = { 'Leader' :  "zm" }
-let g:SignatureMarkOrder = ">\m"
+let g:SignatureMap = { 'Leader' :  "$" }
+let g:SignatureMarkOrder = "»\m"
 
 " ----------------------------------------------------------------------------
 " IndentLine
@@ -245,7 +245,7 @@ let delimitMate_expand_space = 1
 " ----------------------------------------------------------------------------
 "   UltiSnips
 " ----------------------------------------------------------------------------
-let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsExpandTrigger="<nop>"
 
 " ----------------------------------------------------------------------------
 "  GitGutter
