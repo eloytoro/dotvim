@@ -60,8 +60,8 @@ function! s:go_indent(times, dir)
         execute 'normal! '. l .'G^'
     endfor
 endfunction
-nnoremap <silent> gi :<c-u>call <SID>go_indent(v:count1, 1)<cr>
-nnoremap <silent> gI :<c-u>call <SID>go_indent(v:count1, -1)<cr>
+nnoremap <silent> ]i :<c-u>call <SID>go_indent(v:count1, 1)<cr>
+nnoremap <silent> [i :<c-u>call <SID>go_indent(v:count1, -1)<cr>
 
 " ----------------------------------------------------------------------------
 " ?ie | entire object
