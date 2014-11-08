@@ -3,30 +3,32 @@ filetype off
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'eloytoro/jellybeans.vim'
-Plug 'eloytoro/xoria256'
+" Plugins
 Plug 'eloytoro/web-snippets'
 Plug 'SirVer/ultisnips'
-Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'cakebaker/scss-syntax.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
-Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'svermeulen/vim-easyclip'
 Plug 'bling/vim-airline'
-Plug '4dma/vim-blade'
 Plug 'kshenoy/vim-signature'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'Raimondi/delimitMate'
-Plug 'fholgado/minibufexpl.vim'
+" Language specific
+Plug '4dma/vim-blade'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'pangloss/vim-javascript'
+" Colorschemes
+Plug 'eloytoro/jellybeans.vim'
+Plug 'eloytoro/xoria256'
+Plug 'junegunn/seoul256.vim'
 
 call plug#end()
 
@@ -35,9 +37,9 @@ call plug#end()
 " ----------------------------------------------------------------------------
 syntax enable
 "colorscheme xoria256
-colorscheme jellybeans
-"let g:seoul256_background = 234
-"colorscheme seoul256
+"colorscheme jellybeans
+let g:seoul256_background = 233
+colorscheme seoul256
 "colorscheme distinguished
 
 "set background = dark
@@ -112,11 +114,13 @@ nmap cd :cd %:p:h<CR>
 " Retain cursor position on page scrolling
 noremap <C-F> <C-D>
 noremap <C-B> <C-U>
-" switch L and H with ^ and $
+" change L and H to ^ and $
 onoremap H ^
 onoremap L $
 nnoremap H ^
 nnoremap L $
+noremap <silent> ]b :bn<CR>
+noremap <silent> [b :bp<CR>
 
 " ----------------------------------------------------------------------------
 "   Moving lines | for quick line swapping purposes
@@ -234,7 +238,18 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components
 let g:ctrlp_mru_files = 1
 let g:ctrlp_extensions = ['funky', 'line']
 let g:ctrlp_funky_syntax_highlight = 1
-nnoremap ? :CtrlPFunky<Cr>
+nnoremap <silent> ? :CtrlPFunky<Cr>
+function! ctrlp#funky#ft#javascript#filters()
+    let filters = [
+                \ { 'pattern': '\v\s*function\s+\w+\s*\(',
+                \   'formatter': ['\v(^\s*)|(\s*\{.*\ze \t#)', '', 'g'] },
+                \ { 'pattern': '\v\w.+\:\s*.*function\s*\(', 
+                \   'formatter': ['\v(^\s*)|(\s*\{.*\ze \t#)', '', 'g'] },
+                \ { 'pattern': '\v\C\w.+\s*\=\s*function\s*\(',
+                \   'formatter': ['\v(^\s*)|(\s*\{.*\ze \t#)', '', 'g'] }
+                \ ]
+    return filters
+endfunction
 
 " ----------------------------------------------------------------------------
 "   DelimitMate
@@ -252,14 +267,3 @@ let g:UltiSnipsExpandTrigger="<nop>"
 " ----------------------------------------------------------------------------
 nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
-
-" ----------------------------------------------------------------------------
-"  MiniBufExpl
-" ----------------------------------------------------------------------------
-let g:miniBufExplCloseOnSelect = 1
-let g:miniBufExplVSplit = 25
-let g:miniBufExplorerAutoStart = 0
-let g:miniBufExplCycleArround = 1
-noremap ]b :MBEbn<CR>
-noremap [b :MBEbp<CR>
-noremap <leader>b :MBEToggle<CR>
