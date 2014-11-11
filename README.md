@@ -32,3 +32,21 @@ Adds lots of useful vim objects for quick editing
 ###super-tab.vim (super-duper-tab)
 Originally written by @junegunn
 Adds tab completion to insert mode, compatible with UltiSnips expand tab key
+
+##Quickstart
+Lets go over some of the most important additions
+
+###vim-easyclip
+This plugin changes entirely the way vim's clipboard and yank registers work to a more sane alternative.
+If you're really interested in _why_ this is necessary I suggest you read it's documentation and/or watch the vimcast about yank registers
+Bascially the `m` key now stands for "move" and it cuts text into the yank registers, whereas `d`, `c` and `x` will only delete text.
+It also rebinds the `s` key to a new motion called "substitution" which replaces the given object with the yank register content.
+
+###vim-easymotion
+Besides it's common functionality (and the fact that my leader is bind to space) I replaced vim's search engine `/` with easymotion's. It might take some time to get used to pressing enter when you finish typing the query.
+
+###CtrlP
+Remaps `?` to function definition search across the file.
+
+###vim-signature
+Remaps `$` as the new mark motion key.
