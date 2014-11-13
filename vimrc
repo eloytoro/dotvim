@@ -49,7 +49,7 @@ colorscheme seoul256
 " ----------------------------------------------------------------------------
 set backspace=2
 set nu
-set rnu
+set nu
 set showcmd
 set ruler
 set showmatch
@@ -233,7 +233,7 @@ let g:indentLine_faster = 1
 " ----------------------------------------------------------------------------
 "  CtrlP
 " ----------------------------------------------------------------------------
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/bower_components/*,*/node_modules/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*
 "let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
 let g:ctrlp_extensions = ['funky', 'line']
