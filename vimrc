@@ -24,7 +24,7 @@ Plug 'Raimondi/delimitMate'
 " Language specific
 Plug '4dma/vim-blade'
 Plug 'cakebaker/scss-syntax.vim'
-Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript', 'branch': 'develop' }
 " Colorschemes
 Plug 'eloytoro/jellybeans.vim'
 Plug 'eloytoro/xoria256'
@@ -119,8 +119,9 @@ onoremap H ^
 onoremap L $
 nnoremap H ^
 nnoremap L $
-noremap <silent> ]b :bn<CR>
-noremap <silent> [b :bp<CR>
+nnoremap <silent> ]b :bn<CR>
+nnoremap <silent> [b :bp<CR>
+nnoremap <silent> <C-t> :tabnew<cr>
 
 " ----------------------------------------------------------------------------
 "   Moving lines | for quick line swapping purposes
