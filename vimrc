@@ -188,6 +188,8 @@ hi   EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gd :Gvdiff<CR>
 nmap <leader>gD :Gvdiff HEAD^<CR>
+nmap <leader>gm :Gmerge<CR>
+nmap <leader>gc :Gcommit<CR>
 
 " ----------------------------------------------------------------------------
 " EasyAlign
