@@ -1,6 +1,13 @@
 set nocompatible
 filetype off
 
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !mkdir -p ~/.vim/autoload
+    silent !curl -fLo ~/.vim/autoload/plug.vim
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
+endif
+
 call plug#begin('~/.vim/bundle')
 
 " Plugins
@@ -19,12 +26,13 @@ Plug 'kshenoy/vim-signature'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky'
 Plug 'Raimondi/delimitMate'
 " Language specific
-Plug '4dma/vim-blade'
-Plug 'cakebaker/scss-syntax.vim'
+Plug '4dma/vim-blade', { 'for': 'blade' }
+Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript', 'branch': 'develop' }
+Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+Plug 'othree/html5.vim', { 'for': 'html' }
 " Colorschemes
 Plug 'eloytoro/jellybeans.vim'
 Plug 'eloytoro/xoria256'
@@ -39,7 +47,7 @@ syntax enable
 "colorscheme xoria256
 "colorscheme jellybeans
 let g:seoul256_background = 233
-colorscheme seoul256
+silent! colorscheme seoul256
 "colorscheme distinguished
 
 "set background = dark
@@ -49,7 +57,7 @@ colorscheme seoul256
 " ----------------------------------------------------------------------------
 set backspace=2
 set nu
-set nu
+set rnu
 set showcmd
 set ruler
 set showmatch
@@ -119,6 +127,8 @@ onoremap H ^
 onoremap L $
 nnoremap H ^
 nnoremap L $
+vnoremap H ^
+vnoremap L $
 nnoremap <silent> ]b :bn<CR>
 nnoremap <silent> [b :bp<CR>
 nnoremap <silent> <C-t> :tabnew<cr>
@@ -132,8 +142,8 @@ nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 vnoremap <silent> <C-k> :<C-U>execute "normal! gv:move ".max([0,         line("'<") - 2])."\n"<cr>gv
 vnoremap <silent> <C-j> :<C-U>execute "normal! gv:move ".min([line('$'), line("'>") + 1])."\n"<cr>gv
-vnoremap <silent> <C-h> <gv
 vnoremap <silent> <C-l> >gv
+vnoremap <silent> <C-h> <gv
 vnoremap < <gv
 vnoremap > >gv
 
@@ -175,7 +185,9 @@ hi   EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow
 " ----------------------------------------------------------------------------
 " Git
 " ----------------------------------------------------------------------------
-nmap gs :Gstatus<CR>
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gd :Gvdiff<CR>
+nmap <leader>gD :Gvdiff HEAD^<CR>
 
 " ----------------------------------------------------------------------------
 " EasyAlign
@@ -237,20 +249,8 @@ let g:indentLine_faster = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*
 "let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
-let g:ctrlp_extensions = ['funky', 'line']
+let g:ctrlp_extensions = ['line']
 let g:ctrlp_funky_syntax_highlight = 1
-nnoremap <silent> ? :CtrlPFunky<Cr>
-function! ctrlp#funky#ft#javascript#filters()
-    let filters = [
-                \ { 'pattern': '\v\s*function\s+\w+\s*\(',
-                \   'formatter': ['\v(^\s*)|(\s*\{.*\ze \t#)', '', 'g'] },
-                \ { 'pattern': '\v\w.+\:\s*(\[.*)?function\s*\(', 
-                \   'formatter': ['\v(^\s*)|(\s*\{.*\ze \t#)', '', 'g'] },
-                \ { 'pattern': '\v\C\w.+\s*\=\s*function\s*\(',
-                \   'formatter': ['\v(^\s*)|(\s*\{.*\ze \t#)', '', 'g'] }
-                \ ]
-    return filters
-endfunction
 
 " ----------------------------------------------------------------------------
 "   DelimitMate
@@ -268,3 +268,5 @@ let g:UltiSnipsExpandTrigger="<nop>"
 " ----------------------------------------------------------------------------
 nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
+nmap <leader>ga <Plug>GitGutterStageHunk
+nmap <leader>gr <Plug>GitGutterRevertHunk
