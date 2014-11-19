@@ -262,6 +262,8 @@ let delimitMate_expand_space = 1
 "   UltiSnips
 " ----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger="<nop>"
+snoremap <tab> <Esc>:call UltiSnips#ExpandSnippet()<cr>
+xnoremap <tab> :call UltiSnips#SaveLastVisualSelection()<cr>gvs
 
 " ----------------------------------------------------------------------------
 "  GitGutter
