@@ -1,4 +1,4 @@
 *.swo
 *.swp
 bundle/*
-autoload/
+autoload/plug.vim
