@@ -26,6 +26,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
+Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
@@ -90,6 +91,8 @@ if has ("gui_running")
     set guicursor+=a:blinkon0
     set guifont=Inconsolata\ 13
 endif
+set colorcolumn=80
+hi ColorColumn ctermbg=234
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -188,6 +191,8 @@ hi   EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gd :Gvdiff<CR>
 nmap <leader>gD :Gvdiff HEAD^<CR>
+nmap <leader>gm :Gmerge<CR>
+nmap <leader>gc :Gcommit<CR>
 
 " ----------------------------------------------------------------------------
 " EasyAlign
@@ -249,7 +254,7 @@ let g:indentLine_faster = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*
 "let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
-let g:ctrlp_extensions = ['line']
+let g:ctrlp_extensions = ['line', 'todo']
 let g:ctrlp_funky_syntax_highlight = 1
 
 " ----------------------------------------------------------------------------
