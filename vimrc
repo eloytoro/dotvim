@@ -29,6 +29,7 @@ Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet.vim'
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
@@ -286,3 +287,23 @@ let delimitMate_expand_space = 1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 3
+" ----------------------------------------------------------------------------
+" goyo.vim
+" ----------------------------------------------------------------------------
+function! s:goyo_enter()
+    if has('gui_running')
+        set fullscreen
+    endif
+    set scrolloff=999
+endfunction
+function! s:goyo_leave()
+    if has('gui_running')
+        set nofullscreen
+    endif
+    set scrolloff=2
+endfunction
+autocmd! User GoyoEnter
+autocmd! User GoyoLeave
+autocmd User GoyoEnter nested call <SID>goyo_enter()
+autocmd User GoyoLeave nested call <SID>goyo_leave()
+nnoremap <Leader>G :Goyo<CR>
