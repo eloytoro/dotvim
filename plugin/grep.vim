@@ -1,4 +1,4 @@
-function! s:gitgrep(rgxp) abort
+function! s:grep(rgxp) abort
     let entries = []
     let lines = split(system('git grep -n -E '.a:rgxp.' | cat'), '\n')
     if v:shell_error != 0 | continue | endif
@@ -7,10 +7,10 @@ function! s:gitgrep(rgxp) abort
         call add(entries, { 'filename': fname, 'lnum': lno, 'text': text })
     endfor
     if !empty(entries)
-        call setqflist(entries)
-        copen
-        nnoremap <buffer> <CR> :.cc<CR>
+        call setloclist(0, entries)
+        lopen
+        nnoremap <buffer> <CR> :.ll<CR>
     endif
 endfunction
 
-command! -nargs=1 GitGrep call s:gitgrep(<f-args>)
+command! -nargs=1 Grep call s:grep(<f-args>)

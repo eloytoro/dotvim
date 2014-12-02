@@ -12,7 +12,6 @@ call plug#begin('~/.vim/bundle')
 
 " Plugins
 Plug 'eloytoro/web-snippets'
-Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -28,6 +27,9 @@ Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
 Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neosnippet.vim'
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
@@ -89,10 +91,14 @@ set visualbell
 if has ("gui_running")
     set guioptions=agim
     set guicursor+=a:blinkon0
-    set guifont=Inconsolata\ 13
+    if has("mac")
+        set guifont=Inconsolata:h14
+    else
+        set guifont=Inconsolata\ 14
+    endif
 endif
 set colorcolumn=80
-hi ColorColumn ctermbg=234
+hi ColorColumn ctermbg=234 guibg=#252525
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -134,6 +140,8 @@ vnoremap H ^
 vnoremap L $
 nnoremap <silent> ]b :bn<CR>
 nnoremap <silent> [b :bp<CR>
+nnoremap <silent> ]q :cn<CR>
+nnoremap <silent> [q :cp<CR>
 nnoremap <silent> <C-t> :tabnew<cr>
 
 " ----------------------------------------------------------------------------
@@ -183,7 +191,7 @@ map  N         <Plug>(easymotion-prev)
 map  <CR>      <Plug>(easymotion-repeat)
 let  g:EasyMotion_enter_jump_first = 1
 let  g:EasyMotion_smartcase = 1
-hi   EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow
+hi EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow guifg=black guibg=yellow
 
 " ----------------------------------------------------------------------------
 " Git
@@ -193,6 +201,15 @@ nmap <leader>gd :Gvdiff<CR>
 nmap <leader>gD :Gvdiff HEAD^<CR>
 nmap <leader>gm :Gmerge<CR>
 nmap <leader>gc :Gcommit<CR>
+nmap <leader>gl :Glog<CR>
+
+" ----------------------------------------------------------------------------
+"  GitGutter
+" ----------------------------------------------------------------------------
+nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
+nmap <leader>gp <Plug>GitGutterPreviewHunk
+nmap <leader>ga <Plug>GitGutterStageHunk
+nmap <leader>gr <Plug>GitGutterRevertHunk
 
 " ----------------------------------------------------------------------------
 " EasyAlign
@@ -245,6 +262,7 @@ let g:SignatureMarkOrder = "»\m"
 " IndentLine
 " ----------------------------------------------------------------------------
 let g:indentLine_color_term = 234
+let g:indentLine_color_gui = '#252525'
 let g:indentLine_char = '¦'
 let g:indentLine_faster = 1
 
@@ -264,16 +282,28 @@ let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
 
 " ----------------------------------------------------------------------------
-"   UltiSnips
+"   Neocomplete
 " ----------------------------------------------------------------------------
-let g:UltiSnipsExpandTrigger="<nop>"
-snoremap <tab> <Esc>:call UltiSnips#ExpandSnippet()<cr>
-xnoremap <tab> :call UltiSnips#SaveLastVisualSelection()<cr>gvs
-
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#auto_completion_start_length = 3
 " ----------------------------------------------------------------------------
-"  GitGutter
+" goyo.vim
 " ----------------------------------------------------------------------------
-nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
-nmap <leader>gp <Plug>GitGutterPreviewHunk
-nmap <leader>ga <Plug>GitGutterStageHunk
-nmap <leader>gr <Plug>GitGutterRevertHunk
+function! s:goyo_enter()
+    if has('gui_running')
+        set fullscreen
+    endif
+    set scrolloff=999
+endfunction
+function! s:goyo_leave()
+    if has('gui_running')
+        set nofullscreen
+    endif
+    set scrolloff=2
+endfunction
+autocmd! User GoyoEnter
+autocmd! User GoyoLeave
+autocmd User GoyoEnter nested call <SID>goyo_enter()
+autocmd User GoyoLeave nested call <SID>goyo_leave()
+nnoremap <Leader>G :Goyo<CR>
