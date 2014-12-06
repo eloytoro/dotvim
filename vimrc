@@ -97,7 +97,7 @@ if has ("gui_running")
     if has("mac")
         set guifont=Inconsolata:h14
     else
-        set guifont=Inconsolata\ 14
+        set guifont=Inconsolata\ 11
     endif
 endif
 set colorcolumn=80
