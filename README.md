@@ -31,7 +31,11 @@ Adds lots of useful vim objects for quick editing
 
 ###super-tab.vim (super-duper-tab)
 Originally written by @junegunn
-Adds tab completion to insert mode, compatible with UltiSnips expand tab key
+Adds tab completion to insert mode, compatible with Neocomplete expand tab key
+
+###grep.vim
+Performs a grep for the given word across the current proyect and places the results in the location-list
+Use `:Grep <keyword>`
 
 ##Quickstart
 Lets go over some of the most important additions
@@ -50,3 +54,6 @@ Remaps `?` to function definition search across the file.
 
 ###vim-signature
 Remaps `$` as the new mark motion key.
+
+###git
+All git commands were mapped to the `<leader>g` motion.

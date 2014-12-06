@@ -12,6 +12,8 @@ call plug#begin('~/.vim/bundle')
 
 " Plugins
 Plug 'eloytoro/web-snippets'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -27,9 +29,9 @@ Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
 Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
+Plug 'gregsexton/gitv', { 'on', 'Gitv' }
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet.vim'
-Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
@@ -40,6 +42,7 @@ Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'eloytoro/jellybeans.vim'
 Plug 'eloytoro/xoria256'
 Plug 'junegunn/seoul256.vim'
+Plug 'tomasr/molokai'
 
 call plug#end()
 
@@ -47,13 +50,13 @@ call plug#end()
 " Colorschemes
 " ----------------------------------------------------------------------------
 syntax enable
-"colorscheme xoria256
-"colorscheme jellybeans
-let g:seoul256_background = 233
-silent! colorscheme seoul256
-"colorscheme distinguished
+if has("gui_running")
+    silent! colorscheme molokai
+else
+    let g:seoul256_background = 233
+    silent! colorscheme seoul256
+endif
 
-"set background = dark
 
 " ----------------------------------------------------------------------------
 " Basic
@@ -174,18 +177,18 @@ map <C-Left> 2<C-W><
 " Easymotion
 " ----------------------------------------------------------------------------
 let g:EasyMotion_do_mapping = 0
+function! MapMotion(key, plug)
+    exe "map <leader>".a:key." <Plug>(".a:plug.")"
+    exe "omap <leader>".a:key." ".a:plug
+endfunction
+call MapMotion("l", "easymotion-lineanywhere")
+call MapMotion("w", "easymotion-bd-w")
+call MapMotion("W", "easymotion-bd-W")
+call MapMotion("f", "easymotion-s")
+call MapMotion("t", "easymotion-bd-t")
+call MapMotion("j", "easymotion-bd-jk")
+call MapMotion("s", "easymotion-s2")
 map  /         <Plug>(easymotion-sn)
-omap /         <Plug>(easymotion-tn)
-map  <Leader>l <Plug>(easymotion-lineanywhere)
-omap <Leader>l <Plug>(easymotion-lineanywhere)
-map  <Leader>w <Plug>(easymotion-bd-w)
-omap <Leader>w <Plug>(easymotion-bd-w)
-map  <Leader>W <Plug>(easymotion-bd-W)
-omap <Leader>W <Plug>(easymotion-bd-W)
-map  <Leader>f <Plug>(easymotion-s)
-omap <Leader>f <Plug>(easymotion-s)
-map  <Leader>j <Plug>(easymotion-bd-jk)
-omap <Leader>j <Plug>(easymotion-bd-jk)
 map  n         <Plug>(easymotion-next)
 map  N         <Plug>(easymotion-prev)
 map  <CR>      <Plug>(easymotion-repeat)
@@ -202,6 +205,7 @@ nmap <leader>gD :Gvdiff HEAD^<CR>
 nmap <leader>gm :Gmerge<CR>
 nmap <leader>gc :Gcommit<CR>
 nmap <leader>gl :Glog<CR>
+nmap <leader>gv :Gitv<cr>
 
 " ----------------------------------------------------------------------------
 "  GitGutter
@@ -210,6 +214,7 @@ nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
 nmap <leader>ga <Plug>GitGutterStageHunk
 nmap <leader>gr <Plug>GitGutterRevertHunk
+nmap <leader>ge <Plug>Gvsplit
 
 " ----------------------------------------------------------------------------
 " EasyAlign
@@ -242,7 +247,7 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_detect_whitespace = 0
-let g:airline_theme = 'jellybeans'
+let g:airline_theme = 'molokai'
 
 " ----------------------------------------------------------------------------
 " Easyclip
@@ -287,23 +292,3 @@ let delimitMate_expand_space = 1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 3
-" ----------------------------------------------------------------------------
-" goyo.vim
-" ----------------------------------------------------------------------------
-function! s:goyo_enter()
-    if has('gui_running')
-        set fullscreen
-    endif
-    set scrolloff=999
-endfunction
-function! s:goyo_leave()
-    if has('gui_running')
-        set nofullscreen
-    endif
-    set scrolloff=2
-endfunction
-autocmd! User GoyoEnter
-autocmd! User GoyoLeave
-autocmd User GoyoEnter nested call <SID>goyo_enter()
-autocmd User GoyoLeave nested call <SID>goyo_leave()
-nnoremap <Leader>G :Goyo<CR>

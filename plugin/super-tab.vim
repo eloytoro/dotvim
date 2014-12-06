@@ -13,11 +13,11 @@ endfunction
 
 imap <expr><tab> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)"
-            \: <SID>super_duper_tab("\<c-p>", "\<tab>")
+            \: <SID>super_duper_tab("\<c-n>", "\<tab>")
 
 imap <expr><s-tab> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)"
-            \: <SID>super_duper_tab("\<c-n>", "\<s-tab>")
+            \: <SID>super_duper_tab("\<c-p>", "\<s-tab>")
 
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)"
