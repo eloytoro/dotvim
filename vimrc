@@ -29,7 +29,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
 Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
-Plug 'gregsexton/gitv', { 'on', 'Gitv' }
+Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet.vim'
 " Language specific
@@ -205,7 +205,11 @@ nmap <leader>gD :Gvdiff HEAD^<CR>
 nmap <leader>gm :Gmerge<CR>
 nmap <leader>gc :Gcommit<CR>
 nmap <leader>gl :Glog<CR>
+nmap <leader>gw :Gwrite<CR>
+nmap <leader>ge :Gedit<CR>
+nmap <leader>gE :Gvsplit<CR>
 nmap <leader>gv :Gitv<cr>
+nmap <leader>gV :Gitv!<cr>
 
 " ----------------------------------------------------------------------------
 "  GitGutter
@@ -214,7 +218,6 @@ nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
 nmap <leader>ga <Plug>GitGutterStageHunk
 nmap <leader>gr <Plug>GitGutterRevertHunk
-nmap <leader>ge <Plug>Gvsplit
 
 " ----------------------------------------------------------------------------
 " EasyAlign
@@ -247,7 +250,11 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_detect_whitespace = 0
-let g:airline_theme = 'molokai'
+if has("gui_running")
+    let g:airline_theme = 'molokai'
+else
+    let g:airline_theme = 'jellybeans'
+endif
 
 " ----------------------------------------------------------------------------
 " Easyclip
@@ -279,6 +286,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/bower_components/*,*/node_
 let g:ctrlp_mru_files = 1
 let g:ctrlp_extensions = ['line', 'todo']
 let g:ctrlp_funky_syntax_highlight = 1
+let g:ctrlp_working_path_mode = 'ra'
 
 " ----------------------------------------------------------------------------
 "   DelimitMate
