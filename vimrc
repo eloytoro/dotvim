@@ -30,8 +30,8 @@ Plug 'kien/ctrlp.vim'
 Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
-Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/neosnippet.vim'
+Plug 'SirVer/ultisnips'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
@@ -293,10 +293,11 @@ let g:ctrlp_working_path_mode = 'ra'
 " ----------------------------------------------------------------------------
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
+au FileType javascript let b:delimitMate_insert_eol_marker = 2
+au FileType javascript let b:delimitMate_eol_marker = ";"
+
 
 " ----------------------------------------------------------------------------
-"   Neocomplete
+"  UltiSnips
 " ----------------------------------------------------------------------------
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#auto_completion_start_length = 3
+let g:UltiSnipsExpandTrigger = "<C-u>"
