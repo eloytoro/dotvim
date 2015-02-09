@@ -18,7 +18,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
 Plug 'svermeulen/vim-easyclip'
@@ -299,3 +299,8 @@ au FileType javascript let b:delimitMate_eol_marker = ";"
 "  UltiSnips
 " ----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger = "<C-u>"
+
+" ----------------------------------------------------------------------------
+"  E
+" ----------------------------------------------------------------------------
+command -nargs=1 E execute('silent! !mkdir -p "$(dirname "<args>")"') <Bar> e <args>
