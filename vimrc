@@ -12,19 +12,19 @@ call plug#begin('~/.vim/bundle')
 
 " Plugins
 Plug 'eloytoro/web-snippets'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
+Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
 Plug 'svermeulen/vim-easyclip'
 Plug 'bling/vim-airline'
-Plug 'kshenoy/vim-signature'
-Plug 'Lokaltog/vim-easymotion'
+" Plug 'kshenoy/vim-signature'
+Plug 'justinmk/vim-sneak'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
 Plug 'eloytoro/ctrlp-todo'
@@ -53,10 +53,9 @@ syntax enable
 if has("gui_running")
     silent! colorscheme molokai
 else
-    let g:seoul256_background = 233
-    silent! colorscheme seoul256
+    "let g:seoul256_background = 233
+    silent! colorscheme jellybeans
 endif
-
 
 " ----------------------------------------------------------------------------
 " Basic
@@ -174,27 +173,24 @@ map <C-Right> 2<C-W>>
 map <C-Left> 2<C-W><
 
 " ----------------------------------------------------------------------------
-" Easymotion
+"  Sneak
 " ----------------------------------------------------------------------------
-let g:EasyMotion_do_mapping = 0
-function! MapMotion(key, plug)
-    exe "map <leader>".a:key." <Plug>(".a:plug.")"
-    exe "omap <leader>".a:key." ".a:plug
-endfunction
-call MapMotion("l", "easymotion-lineanywhere")
-call MapMotion("w", "easymotion-bd-w")
-call MapMotion("W", "easymotion-bd-W")
-call MapMotion("f", "easymotion-s")
-call MapMotion("t", "easymotion-bd-t")
-call MapMotion("j", "easymotion-bd-jk")
-call MapMotion("s", "easymotion-s2")
-map  /         <Plug>(easymotion-sn)
-map  n         <Plug>(easymotion-next)
-map  N         <Plug>(easymotion-prev)
-map  <CR>      <Plug>(easymotion-repeat)
-let  g:EasyMotion_enter_jump_first = 1
-let  g:EasyMotion_smartcase = 1
-hi EasyMotionMoveHLDefault ctermfg=black ctermbg=yellow guifg=black guibg=yellow
+nmap <CR> <Plug>Sneak_s
+nmap \ <Plug>Sneak_S
+"replace 'f' with 1-char Sneak
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+"replace 't' with 1-char Sneak
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
 
 " ----------------------------------------------------------------------------
 " Git
@@ -214,10 +210,13 @@ nmap <leader>gV :Gitv!<cr>
 " ----------------------------------------------------------------------------
 "  GitGutter
 " ----------------------------------------------------------------------------
+nmap <leader>gg :GitGutterToggle<CR>
 nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
 nmap <leader>ga <Plug>GitGutterStageHunk
 nmap <leader>gr <Plug>GitGutterRevertHunk
+let g:gitgutter_enabled = 0
+let g:gitgutter_highlight_lines = 1
 
 " ----------------------------------------------------------------------------
 " EasyAlign
@@ -295,7 +294,6 @@ let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
 au FileType javascript let b:delimitMate_insert_eol_marker = 2
 au FileType javascript let b:delimitMate_eol_marker = ";"
-
 
 " ----------------------------------------------------------------------------
 "  UltiSnips
