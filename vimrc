@@ -79,6 +79,7 @@ set shiftwidth=4
 set tabstop=4
 set autoread
 set nosol
+set hlsearch
 set expandtab smarttab
 set virtualedit=block
 set backupdir=~/.vim/backup
@@ -175,15 +176,8 @@ map <C-Left> 2<C-W><
 " ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
-nmap <CR> <Plug>Sneak_s
-nmap \ <Plug>Sneak_S
-"replace 'f' with 1-char Sneak
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
+nmap f <Plug>Sneak_s
+nmap F <Plug>Sneak_S
 "replace 't' with 1-char Sneak
 nmap t <Plug>Sneak_t
 nmap T <Plug>Sneak_T
@@ -191,6 +185,7 @@ xmap t <Plug>Sneak_t
 xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
+hi SneakPluginTarget ctermbg=black ctermfg=yellow
 
 " ----------------------------------------------------------------------------
 " Git
@@ -198,6 +193,7 @@ omap T <Plug>Sneak_T
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gd :Gvdiff<CR>
 nmap <leader>gD :Gvdiff HEAD^<CR>
+nmap <leader>gb :Gblame<CR>
 nmap <leader>gm :Gmerge<CR>
 nmap <leader>gc :Gcommit<CR>
 nmap <leader>gl :Glog<CR>
@@ -215,8 +211,6 @@ nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
 nmap <leader>ga <Plug>GitGutterStageHunk
 nmap <leader>gr <Plug>GitGutterRevertHunk
-let g:gitgutter_enabled = 0
-let g:gitgutter_highlight_lines = 1
 
 " ----------------------------------------------------------------------------
 " EasyAlign
