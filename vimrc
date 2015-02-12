@@ -17,7 +17,7 @@ Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
+Plug 'airblade/vim-gitgutter'
 " Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
