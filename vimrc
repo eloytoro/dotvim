@@ -146,6 +146,7 @@ nnoremap <silent> [b :bp<CR>
 nnoremap <silent> ]q :cn<CR>
 nnoremap <silent> [q :cp<CR>
 nnoremap <silent> <C-t> :tabnew<cr>
+nnoremap <CR> gi
 
 " ----------------------------------------------------------------------------
 "   Moving lines | for quick line swapping purposes
@@ -176,16 +177,10 @@ map <C-Left> 2<C-W><
 " ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
-nmap f <Plug>Sneak_s
-nmap F <Plug>Sneak_S
-"replace 't' with 1-char Sneak
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
-hi SneakPluginTarget ctermbg=black ctermfg=yellow
+nmap \  <Plug>Sneak_s
+nmap \| <Plug>Sneak_S
+let g:sneak#streak = 1
+hi SneakPluginTarget ctermbg=yellow ctermfg=black
 
 " ----------------------------------------------------------------------------
 " Git
