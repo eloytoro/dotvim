@@ -102,6 +102,7 @@ if has ("gui_running")
 endif
 set colorcolumn=80
 hi ColorColumn ctermbg=234 guibg=#252525
+au filetype javascript set foldmethod=marker
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -213,9 +214,10 @@ nmap <leader>gr <Plug>GitGutterRevertHunk
 vmap <Enter> <Plug>(EasyAlign)
 
 " ----------------------------------------------------------------------------
-" Nerdtree
+" Explorer
 " ----------------------------------------------------------------------------
-map <Leader>n :NERDTreeToggle<CR>
+map <Leader>n :Tex ./<CR>
+map <Leader>o :Ex<CR>
 
 " ----------------------------------------------------------------------------
 " Airline
