@@ -31,7 +31,7 @@ Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
@@ -147,7 +147,7 @@ nnoremap <silent> [b :bp<CR>
 nnoremap <silent> ]q :cn<CR>
 nnoremap <silent> [q :cp<CR>
 nnoremap <silent> <C-t> :tabnew<cr>
-nnoremap <CR> gi
+nnoremap <CR> g;
 
 " ----------------------------------------------------------------------------
 "   Moving lines | for quick line swapping purposes
@@ -178,9 +178,8 @@ map <C-Left> 2<C-W><
 " ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
-nmap \  <Plug>Sneak_s
-nmap \| <Plug>Sneak_S
-let g:sneak#streak = 1
+nmap gs  <Plug>Sneak_s
+nmap gS <Plug>Sneak_S
 hi SneakPluginTarget ctermbg=yellow ctermfg=black
 
 " ----------------------------------------------------------------------------
