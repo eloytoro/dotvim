@@ -25,6 +25,7 @@ Plug 'svermeulen/vim-easyclip'
 Plug 'bling/vim-airline'
 " Plug 'kshenoy/vim-signature'
 Plug 'justinmk/vim-sneak'
+Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
 Plug 'eloytoro/ctrlp-todo'
@@ -79,7 +80,6 @@ set shiftwidth=4
 set tabstop=4
 set autoread
 set nosol
-set hlsearch
 set expandtab smarttab
 set virtualedit=block
 set backupdir=~/.vim/backup
@@ -179,8 +179,24 @@ map <C-Left> 2<C-W><
 "  Sneak
 " ----------------------------------------------------------------------------
 nmap gs  <Plug>Sneak_s
+omap gs  <Plug>Sneak_s
 nmap gS <Plug>Sneak_S
+omap gS <Plug>Sneak_S
 hi SneakPluginTarget ctermbg=yellow ctermfg=black
+
+" ----------------------------------------------------------------------------
+"  Easymotion
+" ----------------------------------------------------------------------------
+nmap ? <Plug>(easymotion-sn)
+nmap n <Plug>(easymotion-next)
+nmap N <Plug>(easymotion-prev)
+nmap gl <Plug>(easymotion-bd-jk)
+omap gl <Plug>(easymotion-bd-jk)
+nmap gw <Plug>(easymotion-bd-w)
+omap gw <Plug>(easymotion-bd-w)
+nmap gW <Plug>(easymotion-bd-W)
+omap gW <Plug>(easymotion-bd-W)
+hi EasyMotionMoveHL ctermbg=yellow ctermfg=black
 
 " ----------------------------------------------------------------------------
 " Git
@@ -271,7 +287,7 @@ let g:indentLine_faster = 1
 " ----------------------------------------------------------------------------
 "  CtrlP
 " ----------------------------------------------------------------------------
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*
+set wildignore+=*/tmp/*,*.so,*.sw?,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*,*/dist/*,*/test/*
 "let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
 let g:ctrlp_extensions = ['line', 'todo']
