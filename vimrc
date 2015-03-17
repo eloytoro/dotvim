@@ -54,8 +54,11 @@ syntax enable
 if has("gui_running")
     silent! colorscheme molokai
 else
-    "let g:seoul256_background = 233
-    silent! colorscheme jellybeans
+    let g:seoul256_background = 233
+    silent! colorscheme seoul256
+    if system('cat ~/.config/terminator/config | grep background_type') =~ 'transparent'
+        au VimEnter * hi Normal ctermbg=none
+    endif
 endif
 
 " ----------------------------------------------------------------------------
@@ -176,6 +179,12 @@ map <C-Right> 2<C-W>>
 map <C-Left> 2<C-W><
 
 " ----------------------------------------------------------------------------
+"  Surround
+" ----------------------------------------------------------------------------
+nmap s{ ysil{
+nmap s} ySil{
+
+" ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
 nmap gs  <Plug>Sneak_s
@@ -187,16 +196,19 @@ hi SneakPluginTarget ctermbg=yellow ctermfg=black
 " ----------------------------------------------------------------------------
 "  Easymotion
 " ----------------------------------------------------------------------------
-nmap ? <Plug>(easymotion-sn)
+nmap / <Plug>(easymotion-sn)
 nmap n <Plug>(easymotion-next)
 nmap N <Plug>(easymotion-prev)
-nmap gl <Plug>(easymotion-bd-jk)
-omap gl <Plug>(easymotion-bd-jk)
+nmap ? <Plug>(easymotion-bd-jk)
+omap ? <Plug>(easymotion-bd-jk)
 nmap gw <Plug>(easymotion-bd-w)
 omap gw <Plug>(easymotion-bd-w)
 nmap gW <Plug>(easymotion-bd-W)
 omap gW <Plug>(easymotion-bd-W)
 hi EasyMotionMoveHL ctermbg=yellow ctermfg=black
+let g:EasyMotion_enter_jump_first = 1
+let g:EasyMotion_off_screen_search = 1
+let g:EasyMotion_smartcase = 1
 
 " ----------------------------------------------------------------------------
 " Git
