@@ -18,7 +18,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
-" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
 Plug 'svermeulen/vim-easyclip'
@@ -52,10 +52,15 @@ call plug#end()
 " ----------------------------------------------------------------------------
 syntax enable
 if has("gui_running")
+    let g:indentLine_color_gui = '#252525'
     silent! colorscheme molokai
 else
     let g:seoul256_background = 233
     silent! colorscheme seoul256
+    hi ColorColumn ctermbg=234 guibg=#252525
+    hi MatchParen ctermbg=white ctermfg=black
+    let g:indentLine_color_term = 234
+    "let g:indentLine_color_term = 248
     if system('cat ~/.config/terminator/config | grep background_type') =~ 'transparent'
         au VimEnter * hi Normal ctermbg=none
     endif
@@ -83,15 +88,16 @@ set shiftwidth=4
 set tabstop=4
 set autoread
 set nosol
+set nolist
 set expandtab smarttab
 set virtualedit=block
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 set laststatus=2
-set pastetoggle=<F4>
+set pastetoggle=<F7>
 set splitbelow
 set cursorline
-set showbreak=\ ~\ 
+set showbreak=\ >>\ 
 set encoding=utf-8
 set visualbell
 if has ("gui_running")
@@ -104,12 +110,14 @@ if has ("gui_running")
     endif
 endif
 set colorcolumn=80
-hi ColorColumn ctermbg=234 guibg=#252525
-au filetype javascript set foldmethod=marker
+set foldcolumn=0
+set foldmethod=indent
+set foldlevelstart=99
 
 " ----------------------------------------------------------------------------
 " Fix Indent
 " ----------------------------------------------------------------------------
+au BufReadPost *.ts set filetype=javascript
 au BufReadPost *.rkt,*.rktl set filetype=scheme
 au filetype racket set lisp
 au filetype racket set autoindent
@@ -131,8 +139,8 @@ nmap _ O<Esc>
 " Lazy macro creation
 nnoremap Q @q
 " <tab> for tab switcing
-nnoremap <tab> gt
-nnoremap <S-tab> gT
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
 " cd changes directory to the current file's
 nmap cd :cd %:p:h<CR>
 " Retain cursor position on page scrolling
@@ -150,7 +158,7 @@ nnoremap <silent> [b :bp<CR>
 nnoremap <silent> ]q :cn<CR>
 nnoremap <silent> [q :cp<CR>
 nnoremap <silent> <C-t> :tabnew<cr>
-nnoremap <CR> g;
+imap <C-e> <End>
 
 " ----------------------------------------------------------------------------
 "   Moving lines | for quick line swapping purposes
@@ -173,10 +181,10 @@ nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
-map <C-Down> 2<C-W>-
-map <C-Up> 2<C-W>+
-map <C-Right> 2<C-W>>
-map <C-Left> 2<C-W><
+map <S-down> 2<C-W>-
+map <S-up> 2<C-W>+
+map <S-right> 2<C-W>>
+map <S-left> 2<C-W><
 
 " ----------------------------------------------------------------------------
 "  Surround
@@ -199,8 +207,8 @@ hi SneakPluginTarget ctermbg=yellow ctermfg=black
 nmap / <Plug>(easymotion-sn)
 nmap n <Plug>(easymotion-next)
 nmap N <Plug>(easymotion-prev)
-nmap ? <Plug>(easymotion-bd-jk)
-omap ? <Plug>(easymotion-bd-jk)
+nmap <CR> <Plug>(easymotion-bd-jk)
+omap <CR> <Plug>(easymotion-bd-jk)
 nmap gw <Plug>(easymotion-bd-w)
 omap gw <Plug>(easymotion-bd-w)
 nmap gW <Plug>(easymotion-bd-W)
@@ -243,8 +251,9 @@ vmap <Enter> <Plug>(EasyAlign)
 " ----------------------------------------------------------------------------
 " Explorer
 " ----------------------------------------------------------------------------
-map <Leader>n :Tex ./<CR>
-map <Leader>o :Ex<CR>
+map <Leader>t :Tex ./<CR>
+"map <Leader>o :Ex<CR>
+map <Leader>n :NERDTreeToggle<CR>
 let g:netrw_liststyle= 3
 
 " ----------------------------------------------------------------------------
@@ -280,6 +289,8 @@ endif
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipPreserveCursorPositionAfterYank = 1
 let g:EasyClipAutoFormat = 1
+imap <c-v> <Plug>EasyClipInsertModePaste
+set clipboard=unnamed
 nmap M mL
 
 " ----------------------------------------------------------------------------
@@ -291,15 +302,13 @@ let g:SignatureMarkOrder = "»\m"
 " ----------------------------------------------------------------------------
 " IndentLine
 " ----------------------------------------------------------------------------
-let g:indentLine_color_term = 234
-let g:indentLine_color_gui = '#252525'
 let g:indentLine_char = '¦'
 let g:indentLine_faster = 1
 
 " ----------------------------------------------------------------------------
 "  CtrlP
 " ----------------------------------------------------------------------------
-set wildignore+=*/tmp/*,*.so,*.sw?,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*,*/dist/*,*/test/*
+set wildignore+=*/tmp/*,*.so,*.sw?,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*,*/dist/*
 "let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
 let g:ctrlp_extensions = ['line', 'todo']
