@@ -58,11 +58,12 @@ else
     let g:seoul256_background = 233
     silent! colorscheme seoul256
     hi ColorColumn ctermbg=234 guibg=#252525
-    hi MatchParen ctermbg=white ctermfg=black
+    hi MatchParen ctermfg=yellow
     let g:indentLine_color_term = 234
     "let g:indentLine_color_term = 248
     if system('cat ~/.config/terminator/config | grep background_type') =~ 'transparent'
         au VimEnter * hi Normal ctermbg=none
+        au VimEnter * hi NonText ctermbg=none
     endif
 endif
 
@@ -110,9 +111,6 @@ if has ("gui_running")
     endif
 endif
 set colorcolumn=80
-set foldcolumn=0
-set foldmethod=indent
-set foldlevelstart=99
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -195,10 +193,10 @@ nmap s} ySil{
 " ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
-nmap gs  <Plug>Sneak_s
-omap gs  <Plug>Sneak_s
-nmap gS <Plug>Sneak_S
-omap gS <Plug>Sneak_S
+nmap <leader>s  <Plug>Sneak_s
+omap <leader>s  <Plug>Sneak_s
+nmap <leader>S <Plug>Sneak_S
+omap <leader>S <Plug>Sneak_S
 hi SneakPluginTarget ctermbg=yellow ctermfg=black
 
 " ----------------------------------------------------------------------------
@@ -233,6 +231,7 @@ nmap <leader>ge :Gedit<CR>
 nmap <leader>gE :Gvsplit<CR>
 nmap <leader>gv :Gitv<cr>
 nmap <leader>gV :Gitv!<cr>
+let g:Gitv_TruncateCommitSubjects = 1
 
 " ----------------------------------------------------------------------------
 "  GitGutter
@@ -289,6 +288,10 @@ endif
 let g:EasyClipUseSubstituteDefaults = 1
 let g:EasyClipPreserveCursorPositionAfterYank = 1
 let g:EasyClipAutoFormat = 1
+let g:EasyClipShareYanks = 1
+let g:EasyClipUserPasteToggleDefaults = 0
+nmap [y <Plug>EasyClipSwapPasteBackwards
+nmap ]y <Plug>EasyClipSwapPasteForward
 imap <c-v> <Plug>EasyClipInsertModePaste
 set clipboard=unnamed
 nmap M mL
