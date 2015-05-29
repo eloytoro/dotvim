@@ -32,6 +32,8 @@ Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'SirVer/ultisnips'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/vimshell.vim', { 'on': 'VimShellPop' }
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
@@ -39,6 +41,7 @@ Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript', 'branch': 'develop' }
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'othree/html5.vim', { 'for': 'html' }
+Plug 'raichoo/haskell-vim', { 'for': 'haskell' }
 " Colorschemes
 Plug 'eloytoro/jellybeans.vim'
 Plug 'eloytoro/xoria256'
@@ -54,6 +57,13 @@ syntax enable
 if has("gui_running")
     let g:indentLine_color_gui = '#252525'
     silent! colorscheme molokai
+    set guioptions=agim
+    set guicursor+=a:blinkon0
+    if has("mac")
+        set guifont=Inconsolata:h14
+    else
+        set guifont=Inconsolata\ 11
+    endif
 else
     let g:seoul256_background = 233
     silent! colorscheme seoul256
@@ -101,15 +111,6 @@ set cursorline
 set showbreak=\ >>\ 
 set encoding=utf-8
 set visualbell
-if has ("gui_running")
-    set guioptions=agim
-    set guicursor+=a:blinkon0
-    if has("mac")
-        set guifont=Inconsolata:h14
-    else
-        set guifont=Inconsolata\ 11
-    endif
-endif
 set colorcolumn=80
 
 " ----------------------------------------------------------------------------
@@ -191,12 +192,17 @@ nmap s{ ysil{
 nmap s} ySil{
 
 " ----------------------------------------------------------------------------
+"  Shell
+" ----------------------------------------------------------------------------
+nmap <leader>s :VimShellPop<CR>
+
+" ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
-nmap <leader>s  <Plug>Sneak_s
-omap <leader>s  <Plug>Sneak_s
-nmap <leader>S <Plug>Sneak_S
-omap <leader>S <Plug>Sneak_S
+nmap gs  <Plug>Sneak_s
+omap gs  <Plug>Sneak_s
+nmap gS <Plug>Sneak_S
+omap gS <Plug>Sneak_S
 hi SneakPluginTarget ctermbg=yellow ctermfg=black
 
 " ----------------------------------------------------------------------------
