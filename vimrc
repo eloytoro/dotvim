@@ -10,8 +10,6 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-" Plugins
-Plug 'eloytoro/web-snippets'
 " Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
@@ -122,6 +120,7 @@ au filetype racket set lisp
 au filetype racket set autoindent
 filetype plugin indent on
 autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
+autocmd BufReadPost quickfix nmap <buffer> <CR> :.cc<CR>
 
 " ----------------------------------------------------------------------------
 "  Tabs
@@ -137,6 +136,7 @@ nmap - o<Esc>
 nmap _ O<Esc>
 " Lazy macro creation
 nnoremap Q @q
+nmap <leader>q :cope<CR>
 " <tab> for tab switcing
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
@@ -237,12 +237,12 @@ nmap <leader>ge :Gedit<CR>
 nmap <leader>gE :Gvsplit<CR>
 nmap <leader>gv :Gitv<cr>
 nmap <leader>gV :Gitv!<cr>
+nmap <leader>gg :silent Ggrep 
 let g:Gitv_TruncateCommitSubjects = 1
 
 " ----------------------------------------------------------------------------
 "  GitGutter
 " ----------------------------------------------------------------------------
-nmap <leader>gg :GitGutterToggle<CR>
 nmap <leader>gh :GitGutterLineHighlightsToggle<CR>
 nmap <leader>gp <Plug>GitGutterPreviewHunk
 nmap <leader>ga <Plug>GitGutterStageHunk
@@ -336,6 +336,7 @@ au FileType javascript let b:delimitMate_eol_marker = ";"
 "  UltiSnips
 " ----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger = "<C-u>"
+let g:UltiSnipsSnippetsDir = "~/.vim/snippets/UltiSnips"
 
 " ----------------------------------------------------------------------------
 "  E

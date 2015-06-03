@@ -1,0 +1,49 @@
+snippet scope
+(function(${1:arguments}) {
+	${VISUAL}$0
+})($1);
+endsnippet
+
+snippet if "if"
+if (${1:condition}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet for "for"
+for (var ${1:i} = 0; $1 < $2; i++) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet foreach "foreach"
+for (var key in $1) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet ajax
+$.ajax({
+	method: ${1:'GET'},
+	url: $2,
+	data: $3,
+})
+.success(function (data, status, headers, config) {
+	$4
+})
+.error(function (data, status, headers, config) {
+	$5
+});
+endsnippet
+
+snippet .map
+.map(function (item) {
+	return $1
+})$0;
+endsnippet
+
+snippet fun
+function ($1) {
+	${VISUAL}$0
+}
+endsnippet
