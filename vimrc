@@ -10,29 +10,27 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-" Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" Plug 'scrooloose/nerdcommenter'
+"Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
 Plug 'svermeulen/vim-easyclip'
 Plug 'bling/vim-airline'
-" Plug 'kshenoy/vim-signature'
+"Plug 'kshenoy/vim-signature'
 Plug 'justinmk/vim-sneak'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
-Plug 'eloytoro/ctrlp-todo'
+"Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'SirVer/ultisnips'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/vimshell.vim', { 'on': 'VimShellPop' }
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
@@ -65,13 +63,20 @@ if has("gui_running")
 else
     let g:seoul256_background = 233
     silent! colorscheme seoul256
-    hi ColorColumn ctermbg=234 guibg=#252525
     hi MatchParen ctermfg=yellow
     let g:indentLine_color_term = 234
     "let g:indentLine_color_term = 248
     if system('cat ~/.config/terminator/config | grep background_type') =~ 'transparent'
-        au VimEnter * hi Normal ctermbg=none
-        au VimEnter * hi NonText ctermbg=none
+        au VimEnter * hi Normal ctermbg=none      |
+                    \ hi NonText ctermbg=none     |
+                    \ hi LineNr ctermbg=none      |
+                    \ hi CursorLineNr ctermbg=none|
+                    \ hi ColorColumn ctermbg=none |
+                    \ hi CursorLine ctermbg=none  |
+                    \ hi OverLength ctermbg=233   |
+                    \ match OverLength /\%81v.\+/
+    else
+        hi ColorColumn ctermbg=234 guibg=#252525
     endif
 endif
 
@@ -192,11 +197,6 @@ nmap s{ ysil{
 nmap s} ySil{
 
 " ----------------------------------------------------------------------------
-"  Shell
-" ----------------------------------------------------------------------------
-nmap <leader>s :VimShellPop<CR>
-
-" ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
 nmap gs  <Plug>Sneak_s
@@ -237,8 +237,7 @@ nmap <leader>ge :Gedit<CR>
 nmap <leader>gE :Gvsplit<CR>
 nmap <leader>gv :Gitv<cr>
 nmap <leader>gV :Gitv!<cr>
-nmap <leader>gg :silent Ggrep 
-let g:Gitv_TruncateCommitSubjects = 1
+nmap <leader>gg :Ggrep 
 
 " ----------------------------------------------------------------------------
 "  GitGutter
@@ -296,10 +295,11 @@ let g:EasyClipPreserveCursorPositionAfterYank = 1
 let g:EasyClipAutoFormat = 1
 let g:EasyClipShareYanks = 1
 let g:EasyClipUserPasteToggleDefaults = 0
+let g:EasyClipUsePasteToggleDefaults = 0
 nmap [y <Plug>EasyClipSwapPasteBackwards
 nmap ]y <Plug>EasyClipSwapPasteForward
 imap <c-v> <Plug>EasyClipInsertModePaste
-set clipboard=unnamed
+set clipboard=unnamed,unnamedplus
 nmap M mL
 
 " ----------------------------------------------------------------------------
