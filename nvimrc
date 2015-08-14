@@ -1,0 +1,1 @@
+/home/etf/.vim/vimrc

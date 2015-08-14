@@ -10,26 +10,28 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-"Plug 'scrooloose/syntastic'
+" Essential
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-"Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
 Plug 'svermeulen/vim-easyclip'
 Plug 'bling/vim-airline'
-"Plug 'kshenoy/vim-signature'
 Plug 'justinmk/vim-sneak'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'kien/ctrlp.vim'
-"Plug 'eloytoro/ctrlp-todo'
 Plug 'Raimondi/delimitMate'
-Plug 'gregsexton/gitv', { 'on': 'Gitv' }
-Plug 'SirVer/ultisnips'
+" Optional
+"Plug 'eloytoro/ctrlp-todo'
+"Plug 'scrooloose/nerdcommenter'
+"Plug 'kshenoy/vim-signature'
+"Plug 'scrooloose/syntastic'
+"Plug 'SirVer/ultisnips'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
@@ -50,15 +52,17 @@ call plug#end()
 " Colorschemes
 " ----------------------------------------------------------------------------
 syntax enable
-if has("gui_running")
+if $NVIM_TUI_ENABLE_TRUE_COLOR
     let g:indentLine_color_gui = '#252525'
     silent! colorscheme molokai
-    set guioptions=agim
-    set guicursor+=a:blinkon0
-    if has("mac")
-        set guifont=Inconsolata:h14
-    else
-        set guifont=Inconsolata\ 11
+    if has("gui_running")
+        set guioptions=agim
+        set guicursor+=a:blinkon0
+        if has("mac")
+            set guifont=Inconsolata:h14
+        else
+            set guifont=Inconsolata\ 11
+        endif
     endif
 else
     let g:seoul256_background = 233
@@ -66,17 +70,16 @@ else
     hi MatchParen ctermfg=yellow
     let g:indentLine_color_term = 234
     "let g:indentLine_color_term = 248
+    let colorscheme = split(split(system('cat ~/.kde/share/apps/konsole/Shell.profile | grep ColorScheme'), '=')[1], '\n')[0]
+    let opacity = system('cat ~/.kde/share/apps/konsole/'.colorscheme.'.colorscheme | grep Opacity')
+    hi ColorColumn ctermbg=234 guibg=#252525
     if system('cat ~/.config/terminator/config | grep background_type') =~ 'transparent'
         au VimEnter * hi Normal ctermbg=none      |
                     \ hi NonText ctermbg=none     |
                     \ hi LineNr ctermbg=none      |
                     \ hi CursorLineNr ctermbg=none|
                     \ hi ColorColumn ctermbg=none |
-                    \ hi CursorLine ctermbg=none  |
-                    \ hi OverLength ctermbg=233   |
-                    \ match OverLength /\%81v.\+/
-    else
-        hi ColorColumn ctermbg=234 guibg=#252525
+                    \ hi CursorLine ctermbg=none
     endif
 endif
 
@@ -185,10 +188,22 @@ nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
-map <S-down> 2<C-W>-
-map <S-up> 2<C-W>+
-map <S-right> 2<C-W>>
-map <S-left> 2<C-W><
+nmap <down> 2<C-W>-
+nmap <up> 2<C-W>+
+nmap <right> 2<C-W>>
+nmap <left> 2<C-W><
+nmap <C-w>- :sp<CR>
+nmap <C-w>\ :vsp<CR>
+
+" ----------------------------------------------------------------------------
+"  Neovim
+" ----------------------------------------------------------------------------
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+    nmap <leader>t :te<CR>
+    set ttimeout
+    set ttimeoutlen=0
+endif
 
 " ----------------------------------------------------------------------------
 "  Surround
@@ -238,6 +253,8 @@ nmap <leader>gE :Gvsplit<CR>
 nmap <leader>gv :Gitv<cr>
 nmap <leader>gV :Gitv!<cr>
 nmap <leader>gg :Ggrep 
+let g:Gitv_OpenHorizontal = 1
+let g:Gitv_OpenPreviewOnLaunch = 1
 
 " ----------------------------------------------------------------------------
 "  GitGutter
@@ -255,10 +272,7 @@ vmap <Enter> <Plug>(EasyAlign)
 " ----------------------------------------------------------------------------
 " Explorer
 " ----------------------------------------------------------------------------
-map <Leader>t :Tex ./<CR>
-"map <Leader>o :Ex<CR>
 map <Leader>n :NERDTreeToggle<CR>
-let g:netrw_liststyle= 3
 
 " ----------------------------------------------------------------------------
 " Airline
