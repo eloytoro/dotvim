@@ -1,10 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/home/etf/node/taima-frontend'
-let g:netrw_dirhist_2='/home/etf/Documents/minee/.minecraft/assets'
-let g:netrw_dirhist_3='/home/etf/node/taima-backend'
-let g:netrw_dirhist_4='/home/etf/.vim'
-let g:netrw_dirhist_5='/home/etf/node/ChromeLogger/Chrome'
-let g:netrw_dirhist_6='/home/etf/node/ChromeLogger/Chrome/src'
-let g:netrw_dirhist_7='/home/etf/node/ChromeLogger/Chrome/src/inject'
-let g:netrw_dirhist_8='/home/etf/node/taima-backend/app'
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/etf/.nvim/bundle/vim-easyclip'
+let g:netrw_dirhist_2='/home/etf/.nvim/bundle/vim-easyclip/doc'
+let g:netrw_dirhist_3='/home/etf/.nvim/bundle/vim-easyclip'
+let g:netrw_dirhist_4='/home/etf/.nvim/bundle/vim-easyclip/autoload'
+let g:netrw_dirhist_5='/home/etf/.nvim/bundle/vim-easyclip/autoload/EasyClip'
+let g:netrw_dirhist_6='/home/etf/node/taima-backend/app'

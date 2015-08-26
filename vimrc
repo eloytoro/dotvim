@@ -1,6 +1,4 @@
-set nocompatible
 filetype off
-
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !mkdir -p ~/.vim/autoload
     silent !curl -fLo ~/.vim/autoload/plug.vim
@@ -15,23 +13,28 @@ Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/goyo.vim'
 Plug 'svermeulen/vim-easyclip'
-Plug 'bling/vim-airline'
+"Plug 'bling/vim-airline'
 Plug 'justinmk/vim-sneak'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
-Plug 'kien/ctrlp.vim'
 Plug 'Raimondi/delimitMate'
+Plug 'eloytoro/vim-istanbul'
+Plug 'kien/ctrlp.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+" Plug 'junegunn/fzf.vim'
 " Optional
-"Plug 'eloytoro/ctrlp-todo'
 "Plug 'scrooloose/nerdcommenter'
 "Plug 'kshenoy/vim-signature'
 "Plug 'scrooloose/syntastic'
-"Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
+Plug 'ervandew/supertab'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
@@ -55,6 +58,21 @@ syntax enable
 if $NVIM_TUI_ENABLE_TRUE_COLOR
     let g:indentLine_color_gui = '#252525'
     silent! colorscheme molokai
+    hi StatusLine   guifg=#000000 guibg=#FFFFFF
+    hi StatusLineNC guifg=#000000 guibg=#333333
+    let colorscheme = split(split(system('cat ~/.kde/share/apps/konsole/Shell.profile | grep ColorScheme'), '=')[1], '\n')[0]
+    let opacity = system('cat ~/.kde/share/apps/konsole/'.colorscheme.'.colorscheme | grep Opacity')
+    if opacity =~ '0.'
+        au VimEnter * hi Normal guibg=none          |
+                    \ hi NonText guibg=none         |
+                    \ hi LineNr guibg=none          |
+                    \ hi CursorLineNr guibg=none    |
+                    \ hi ColorColumn guibg=none     |
+                    \ hi CursorLine guibg=none      |
+                    \ hi GitGutterAdd guibg=none    |
+                    \ hi GitGutterChange guibg=none |
+                    \ hi GitGutterDelete guibg=none
+    endif
     if has("gui_running")
         set guioptions=agim
         set guicursor+=a:blinkon0
@@ -70,8 +88,6 @@ else
     hi MatchParen ctermfg=yellow
     let g:indentLine_color_term = 234
     "let g:indentLine_color_term = 248
-    let colorscheme = split(split(system('cat ~/.kde/share/apps/konsole/Shell.profile | grep ColorScheme'), '=')[1], '\n')[0]
-    let opacity = system('cat ~/.kde/share/apps/konsole/'.colorscheme.'.colorscheme | grep Opacity')
     hi ColorColumn ctermbg=234 guibg=#252525
     if system('cat ~/.config/terminator/config | grep background_type') =~ 'transparent'
         au VimEnter * hi Normal ctermbg=none      |
@@ -114,10 +130,24 @@ set laststatus=2
 set pastetoggle=<F7>
 set splitbelow
 set cursorline
-set showbreak=\ >>\ 
+set showbreak=↳\ 
+set breakindent
+set breakindentopt=sbr
 set encoding=utf-8
 set visualbell
 set colorcolumn=80
+set rtp+=~/.fzf
+set formatoptions+=rojn
+set cot=menuone,preview,longest
+set diffopt=filler,vertical
+set nohlsearch
+function! S_modified()
+    if &modified
+        return '[!]'
+    endif
+    return ''
+endfunction
+set statusline=%f\ %{exists('g:loaded_fugitive')?fugitive#statusline():''}\ %{S_modified()}\ %=%-14.(%l,%c%V%)\ %P
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -166,17 +196,20 @@ nnoremap <silent> ]q :cn<CR>
 nnoremap <silent> [q :cp<CR>
 nnoremap <silent> <C-t> :tabnew<cr>
 imap <C-e> <End>
+inoremap <C-s> <C-O>:update<cr>
+nnoremap <C-s> :update<cr>
+inoremap <C-q> <esc>:q<cr>
+nnoremap <C-q> :q<cr>
 
 " ----------------------------------------------------------------------------
 "   Moving lines | for quick line swapping purposes
 " ----------------------------------------------------------------------------
-nnoremap <silent> <C-k> :execute ":move ".max([0,         line('.') - 2])<cr>==
-nnoremap <silent> <C-j> :execute ":move ".min([line('$'), line('.') + 1])<cr>==
+nnoremap <silent> <C-k> :move-2<cr>
+nnoremap <silent> <C-j> :move+<cr>
 nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
-vnoremap <silent> <C-k> :<C-U>execute "normal! gv:move ".max([0,         line("'<") - 2])."\n"<cr>gv
-vnoremap <silent> <C-j> :<C-U>execute "normal! gv:move ".min([line('$'), line("'>") + 1])."\n"<cr>gv
-vnoremap <silent> <C-l> >gv
+xnoremap <silent> <C-k> :move-2<cr>gv
+xnoremap <silent> <C-j> :move'>+<cr>gvvnoremap <silent> <C-l> >gv
 vnoremap <silent> <C-h> <gv
 vnoremap < <gv
 vnoremap > >gv
@@ -200,9 +233,11 @@ nmap <C-w>\ :vsp<CR>
 " ----------------------------------------------------------------------------
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
-    nmap <leader>t :te<CR>
+    nmap <leader>t :tabnew\|te<CR>
     set ttimeout
     set ttimeoutlen=0
+else
+    set nocompatible
 endif
 
 " ----------------------------------------------------------------------------
@@ -240,7 +275,7 @@ let g:EasyMotion_smartcase = 1
 " ----------------------------------------------------------------------------
 " Git
 " ----------------------------------------------------------------------------
-nmap <leader>gs :Gstatus<CR>
+nmap <leader>gs :Gstatus<CR>gg<C-n>
 nmap <leader>gd :Gvdiff<CR>
 nmap <leader>gD :Gvdiff HEAD^<CR>
 nmap <leader>gb :Gblame<CR>
@@ -273,6 +308,7 @@ vmap <Enter> <Plug>(EasyAlign)
 " Explorer
 " ----------------------------------------------------------------------------
 map <Leader>n :NERDTreeToggle<CR>
+au FileType * if &ft=="nerdtree" | silent! nunmap <buffer> mm | endif
 
 " ----------------------------------------------------------------------------
 " Airline
@@ -295,11 +331,6 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_detect_whitespace = 0
-if has("gui_running")
-    let g:airline_theme = 'molokai'
-else
-    let g:airline_theme = 'jellybeans'
-endif
 
 " ----------------------------------------------------------------------------
 " Easyclip
@@ -313,7 +344,7 @@ let g:EasyClipUsePasteToggleDefaults = 0
 nmap [y <Plug>EasyClipSwapPasteBackwards
 nmap ]y <Plug>EasyClipSwapPasteForward
 imap <c-v> <Plug>EasyClipInsertModePaste
-set clipboard=unnamed,unnamedplus
+set clipboard+=unnamedplus
 nmap M mL
 
 " ----------------------------------------------------------------------------
@@ -356,3 +387,73 @@ let g:UltiSnipsSnippetsDir = "~/.vim/snippets/UltiSnips"
 "  E
 " ----------------------------------------------------------------------------
 command -nargs=1 E execute('silent! !mkdir -p "$(dirname "<args>")"') <Bar> e <args>
+
+" ----------------------------------------------------------------------------
+"  vim-commentary
+" ----------------------------------------------------------------------------
+map  gc  <Plug>Commentary
+nmap gcc <Plug>CommentaryLine
+
+
+" ----------------------------------------------------------------------------
+" co? : Toggle options (inspired by unimpaired.vim)
+" ----------------------------------------------------------------------------
+function! s:map_change_option(...)
+    let [key, opt] = a:000[0:1]
+    let op = get(a:, 3, 'set '.opt.'!')
+    execute printf("nnoremap co%s :%s<bar>echo '%s: '. &%s<cr>",
+                \ key, op, opt, opt)
+endfunction
+
+call s:map_change_option('p', 'paste')
+call s:map_change_option('n', 'number')
+call s:map_change_option('w', 'wrap')
+call s:map_change_option('h', 'hlsearch')
+call s:map_change_option('m', 'mouse', 'let &mouse = &mouse == "" ? "a" : ""')
+call s:map_change_option('t', 'textwidth',
+            \ 'let &textwidth = input("textwidth (". &textwidth ."): ")<bar>redraw')
+call s:map_change_option('b', 'background',
+            \ 'let &background = &background == "dark" ? "light" : "dark"<bar>redraw')
+nnoremap cogg :GitGutterLineHighlightsToggle<CR>
+
+" ----------------------------------------------------------------------------
+" <Leader>? | Google it
+" ----------------------------------------------------------------------------
+function! s:goog(pat)
+    let q = '"'.substitute(a:pat, '["\n]', ' ', 'g').'"'
+    let q = substitute(q, '[[:punct:] ]',
+                \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
+    call system('google-chrome https://www.google.co.kr/search?q='.q)
+endfunction
+
+nnoremap <leader>? :call <SID>goog(getline("."))<cr>
+xnoremap <leader>? "gy:call <SID>goog(@g)<cr>gv
+
+if has('nvim')
+    let $FZF_DEFAULT_OPTS .= ' --inline-info'
+    let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
+endif
+nnoremap <silent> <C-p> :Files<CR>
+nnoremap <silent> <Leader>C        :Colors<CR>
+nnoremap <silent> <Leader><Enter>  :Buffers<CR>
+inoremap <expr> <c-x><c-k> fzf#complete('cat /usr/share/dict/words')
+
+" ----------------------------------------------------------------------------
+" :Root | Change directory to the root of the Git repository
+" ----------------------------------------------------------------------------
+function! s:root()
+    let root = systemlist('git rev-parse --show-toplevel')[0]
+    if !v:shell_error
+        execute 'lcd' root
+        echo 'Changed directory to: '.root
+    endif
+endfunction
+" au VimEnter * call s:root()
+
+" ----------------------------------------------------------------------------
+"  Allow for extra vim options
+" ----------------------------------------------------------------------------
+let s:local_vimrc = expand('%:p:h').'/.vimrc'
+if filereadable(s:local_vimrc)
+    execute 'source' s:local_vimrc
+endif
