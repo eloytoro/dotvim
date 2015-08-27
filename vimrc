@@ -131,8 +131,10 @@ set pastetoggle=<F7>
 set splitbelow
 set cursorline
 set showbreak=↳\ 
-set breakindent
-set breakindentopt=sbr
+if has('patch-7.4.338')
+    set breakindent
+    set breakindentopt=sbr
+endif
 set encoding=utf-8
 set visualbell
 set colorcolumn=80
