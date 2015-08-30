@@ -39,7 +39,8 @@ Plug 'ervandew/supertab'
 " Language specific
 Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript', 'branch': 'develop' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'raichoo/haskell-vim', { 'for': 'haskell' }
@@ -251,10 +252,10 @@ nmap s} ySil{
 " ----------------------------------------------------------------------------
 "  Sneak
 " ----------------------------------------------------------------------------
-nmap gs  <Plug>Sneak_s
-omap gs  <Plug>Sneak_s
-nmap gS <Plug>Sneak_S
-omap gS <Plug>Sneak_S
+nmap gf  <Plug>Sneak_s
+omap gf  <Plug>Sneak_s
+nmap gb <Plug>Sneak_S
+omap gb <Plug>Sneak_S
 hi SneakPluginTarget ctermbg=yellow ctermfg=black
 
 " ----------------------------------------------------------------------------
@@ -386,16 +387,17 @@ let g:UltiSnipsExpandTrigger = "<C-u>"
 let g:UltiSnipsSnippetsDir = "~/.vim/snippets/UltiSnips"
 
 " ----------------------------------------------------------------------------
-"  E
-" ----------------------------------------------------------------------------
-command -nargs=1 E execute('silent! !mkdir -p "$(dirname "<args>")"') <Bar> e <args>
-
-" ----------------------------------------------------------------------------
 "  vim-commentary
 " ----------------------------------------------------------------------------
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 
+" ----------------------------------------------------------------------------
+"  JSDoc
+" ----------------------------------------------------------------------------
+nmap doc <Plug>(jsdoc)
+let g:jsdoc_allow_input_prompt = 1
+let g:jsdoc_return = 0
 
 " ----------------------------------------------------------------------------
 " co? : Toggle options (inspired by unimpaired.vim)
