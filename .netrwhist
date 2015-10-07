@@ -1,8 +1,8 @@
 let g:netrw_dirhistmax  =10
 let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/home/etf/.nvim/bundle/vim-easyclip'
-let g:netrw_dirhist_2='/home/etf/.nvim/bundle/vim-easyclip/doc'
-let g:netrw_dirhist_3='/home/etf/.nvim/bundle/vim-easyclip'
-let g:netrw_dirhist_4='/home/etf/.nvim/bundle/vim-easyclip/autoload'
-let g:netrw_dirhist_5='/home/etf/.nvim/bundle/vim-easyclip/autoload/EasyClip'
-let g:netrw_dirhist_6='/home/etf/node/taima-backend/app'
+let g:netrw_dirhist_1='/home/etf/vim/ctrlp-todo'
+let g:netrw_dirhist_2='/home/etf/vim/ctrlp-todo/autoload'
+let g:netrw_dirhist_3='/home/etf/vim/ctrlp-todo/autoload/ctrlp'
+let g:netrw_dirhist_4='/home/etf/node/hello/www'
+let g:netrw_dirhist_5='/home/etf/node/taima/taima-core/src'
+let g:netrw_dirhist_6='/home/etf/node/taima/taima-core/src/services'

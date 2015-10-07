@@ -14,6 +14,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-ragtag'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -90,14 +91,6 @@ else
     let g:indentLine_color_term = 234
     "let g:indentLine_color_term = 248
     hi ColorColumn ctermbg=234 guibg=#252525
-    if system('cat ~/.config/terminator/config | grep background_type') =~ 'transparent'
-        au VimEnter * hi Normal ctermbg=none      |
-                    \ hi NonText ctermbg=none     |
-                    \ hi LineNr ctermbg=none      |
-                    \ hi CursorLineNr ctermbg=none|
-                    \ hi ColorColumn ctermbg=none |
-                    \ hi CursorLine ctermbg=none
-    endif
 endif
 
 " ----------------------------------------------------------------------------
@@ -130,9 +123,8 @@ set directory=~/.vim/backup
 set laststatus=2
 set pastetoggle=<F7>
 set splitbelow
-set cursorline
-set showbreak=↳\ 
 if has('patch-7.4.338')
+    set showbreak=↳\ 
     set breakindent
     set breakindentopt=sbr
 endif
@@ -144,6 +136,7 @@ set formatoptions+=rojn
 set cot=menuone,preview,longest
 set diffopt=filler,vertical
 set nohlsearch
+set mouse=""
 function! S_modified()
     if &modified
         return '[!]'
@@ -151,6 +144,8 @@ function! S_modified()
     return ''
 endfunction
 set statusline=%f\ %{exists('g:loaded_fugitive')?fugitive#statusline():''}\ %{S_modified()}\ %=%-14.(%l,%c%V%)\ %P
+hi StatusLine ctermfg=232 ctermbg=45
+hi StatusLineNC ctermfg=232 ctermbg=237
 
 " ----------------------------------------------------------------------------
 " Fix Indent
@@ -224,8 +219,8 @@ nmap gh <C-w>h
 nmap gj <C-w>j
 nmap gk <C-w>k
 nmap gl <C-w>l
-nmap <down> 2<C-W>-
-nmap <up> 2<C-W>+
+nmap <down> :res -2<CR>
+nmap <up> :res +2<CR>
 nmap <right> 2<C-W>>
 nmap <left> 2<C-W><
 nmap <C-w>- :sp<CR>
@@ -278,7 +273,7 @@ let g:EasyMotion_smartcase = 1
 " ----------------------------------------------------------------------------
 " Git
 " ----------------------------------------------------------------------------
-nmap <leader>gs :Gstatus<CR>gg<C-n>
+nmap <leader>gs :Gstatus<CR>gg<c-n>
 nmap <leader>gd :Gvdiff<CR>
 nmap <leader>gD :Gvdiff HEAD^<CR>
 nmap <leader>gb :Gblame<CR>
@@ -291,6 +286,14 @@ nmap <leader>gE :Gvsplit<CR>
 nmap <leader>gv :Gitv<cr>
 nmap <leader>gV :Gitv!<cr>
 nmap <leader>gg :Ggrep 
+nmap <leader>gam :Git merge --abort<CR>
+nmap <leader>gar :Git rebase --abort<CR>
+fu GitvRebaseHere()
+    let l = getline(line('.'))
+    let sha = matchstr(l, "\\[\\zs[0-9a-f]\\{7}\\ze\\]$")
+    execute "Git rebase -i ".sha."^"
+endf
+au FileType gitv nmap <leader>gr :call GitvRebaseHere()<CR>
 let g:Gitv_OpenHorizontal = 1
 let g:Gitv_OpenPreviewOnLaunch = 1
 
@@ -368,7 +371,7 @@ let g:indentLine_faster = 1
 set wildignore+=*/tmp/*,*.so,*.sw?,*.zip,*/vendor/*,*/bower_components/*,*/node_modules/*,*/dist/*
 "let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_mru_files = 1
-let g:ctrlp_extensions = ['line', 'todo']
+let g:ctrlp_extensions = ['merge', 'checkout']
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_working_path_mode = 'ra'
 
@@ -398,6 +401,25 @@ nmap gcc <Plug>CommentaryLine
 nmap doc <Plug>(jsdoc)
 let g:jsdoc_allow_input_prompt = 1
 let g:jsdoc_return = 0
+
+" ----------------------------------------------------------------------------
+"  Goyo
+" ----------------------------------------------------------------------------
+nmap <Leader>G :Goyo<CR>
+function! s:goyo_enter()
+    silent !tmux set status off
+endfunction
+function! s:goyo_leave()
+    silent !tmux set status on
+endfunction
+au! User GoyoEnter nested call <SID>goyo_enter()
+au! User GoyoLeave nested call <SID>goyo_leave()
+
+
+" ----------------------------------------------------------------------------
+"  SuperTab
+" ----------------------------------------------------------------------------
+let g:SuperTabLongestHighlight = 1
 
 " ----------------------------------------------------------------------------
 " co? : Toggle options (inspired by unimpaired.vim)
