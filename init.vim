@@ -1,12 +1,12 @@
 filetype off
-if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !mkdir -p ~/.vim/autoload
-    silent !curl -fLo ~/.vim/autoload/plug.vim
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !mkdir -p ~/.config/nvim/autoload
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin('~/.vim/bundle')
+call plug#begin('~/.config/nvim/bundle')
 
 " Essential
 Plug 'tpope/vim-git'
@@ -19,28 +19,28 @@ Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/goyo.vim'
 Plug 'svermeulen/vim-easyclip'
-"Plug 'bling/vim-airline'
+Plug 'bling/vim-airline'
 Plug 'justinmk/vim-sneak'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'Raimondi/delimitMate'
-Plug 'eloytoro/vim-istanbul'
+Plug 'SirVer/ultisnips'
+Plug 'eloytoro/vim-istanbul', { 'on': 'IstanbulShow' }
+Plug 'PeterRincker/vim-argumentative'
 Plug 'kien/ctrlp.vim'
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 " Plug 'junegunn/fzf.vim'
 " Optional
 "Plug 'scrooloose/nerdcommenter'
 "Plug 'kshenoy/vim-signature'
-"Plug 'scrooloose/syntastic'
-Plug 'SirVer/ultisnips'
-Plug 'ervandew/supertab'
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'scrooloose/syntastic'
+"Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 " Language specific
-Plug '4dma/vim-blade', { 'for': 'blade' }
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'othree/html5.vim', { 'for': 'html' }
@@ -118,8 +118,8 @@ set nosol
 set nolist
 set expandtab smarttab
 set virtualedit=block
-set backupdir=~/.vim/backup
-set directory=~/.vim/backup
+set backupdir=~/.config/nvim/backup
+set directory=~/.config/nvim/backup
 set laststatus=2
 set pastetoggle=<F7>
 set splitbelow
@@ -166,7 +166,7 @@ set list listchars=tab:¦\ ,trail:·,extends:»,precedes:«,nbsp:×
 " ----------------------------------------------------------------------------
 " Maps
 " ----------------------------------------------------------------------------
-map <F2> :source ~/.vimrc<CR>
+map <F2> :source ~/.config/nvim/init.vim<CR>
 " For inserting new lines
 nmap - o<Esc>
 nmap _ O<Esc>
@@ -193,7 +193,6 @@ nnoremap <silent> [b :bp<CR>
 nnoremap <silent> ]q :cn<CR>
 nnoremap <silent> [q :cp<CR>
 nnoremap <silent> <C-t> :tabnew<cr>
-imap <C-e> <End>
 inoremap <C-s> <C-O>:update<cr>
 nnoremap <C-s> :update<cr>
 inoremap <C-q> <esc>:q<cr>
@@ -232,6 +231,7 @@ nmap <C-w>\ :vsp<CR>
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
     nmap <leader>t :tabnew\|te<CR>
+    nmap ! :sp\|te<CR>
     set ttimeout
     set ttimeoutlen=0
 else
@@ -386,8 +386,18 @@ au FileType javascript let b:delimitMate_eol_marker = ";"
 " ----------------------------------------------------------------------------
 "  UltiSnips
 " ----------------------------------------------------------------------------
-let g:UltiSnipsExpandTrigger = "<C-u>"
-let g:UltiSnipsSnippetsDir = "~/.vim/snippets/UltiSnips"
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        return "\<CR>"
+    endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+let g:UltiSnipsSnippetsDir = "~/.config/nvim/snippets/UltiSnips"
 
 " ----------------------------------------------------------------------------
 "  vim-commentary
@@ -403,23 +413,16 @@ let g:jsdoc_allow_input_prompt = 1
 let g:jsdoc_return = 0
 
 " ----------------------------------------------------------------------------
-"  Goyo
+"  Syntastic
 " ----------------------------------------------------------------------------
-nmap <Leader>G :Goyo<CR>
-function! s:goyo_enter()
-    silent !tmux set status off
-endfunction
-function! s:goyo_leave()
-    silent !tmux set status on
-endfunction
-au! User GoyoEnter nested call <SID>goyo_enter()
-au! User GoyoLeave nested call <SID>goyo_leave()
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-
-" ----------------------------------------------------------------------------
-"  SuperTab
-" ----------------------------------------------------------------------------
-let g:SuperTabLongestHighlight = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " ----------------------------------------------------------------------------
 " co? : Toggle options (inspired by unimpaired.vim)
