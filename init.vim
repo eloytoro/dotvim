@@ -396,7 +396,9 @@ function ExpandSnippetOrCarriageReturn()
         return "\<CR>"
     endif
 endfunction
-inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+inoremap <expr> <CR> pumvisible() ?
+            \ "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" :
+            \ "<C-R>=delimitMate#ExpandReturn()<CR>"
 let g:UltiSnipsSnippetsDir = "~/.config/nvim/snippets/UltiSnips"
 
 " ----------------------------------------------------------------------------
