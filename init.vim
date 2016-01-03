@@ -15,6 +15,9 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-ragtag'
+Plug 'tpope/vim-dispatch'
+Plug 'benmills/vimux'
+Plug 'kassio/neoterm'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -28,15 +31,17 @@ Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'eloytoro/vim-istanbul', { 'on': 'IstanbulShow' }
 Plug 'PeterRincker/vim-argumentative'
-Plug 'kien/ctrlp.vim'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-" Plug 'junegunn/fzf.vim'
+" Plug 'kien/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " Optional
 "Plug 'scrooloose/nerdcommenter'
 "Plug 'kshenoy/vim-signature'
 Plug 'scrooloose/syntastic'
 "Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/echodoc.vim'
 " Language specific
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
@@ -115,6 +120,7 @@ set shiftwidth=4
 set tabstop=4
 set autoread
 set nosol
+set noshowmode
 set nolist
 set expandtab smarttab
 set virtualedit=block
@@ -131,19 +137,17 @@ endif
 set encoding=utf-8
 set visualbell
 set colorcolumn=80
-set rtp+=~/.fzf
 set formatoptions+=rojn
-set cot=menuone,preview,longest
 set diffopt=filler,vertical
 set nohlsearch
 set mouse=""
 function! S_modified()
     if &modified
-        return '[!]'
+        return ' [+] '
     endif
     return ''
 endfunction
-set statusline=%f\ %{exists('g:loaded_fugitive')?fugitive#statusline():''}\ %{S_modified()}\ %=%-14.(%l,%c%V%)\ %P
+set statusline=%f\ %y\ %{exists('g:loaded_fugitive')?fugitive#statusline():''}%{S_modified()}%=%-14.(%l/%L,%c%V%)
 hi StatusLine ctermfg=232 ctermbg=45
 hi StatusLineNC ctermfg=232 ctermbg=237
 
@@ -170,6 +174,7 @@ map <F2> :source ~/.config/nvim/init.vim<CR>
 " For inserting new lines
 nmap - o<Esc>
 nmap _ O<Esc>
+nmap ! :10sp \| term 
 " Lazy macro creation
 nnoremap Q @q
 nmap <leader>q :cope<CR>
@@ -231,7 +236,6 @@ nmap <C-w>\ :vsp<CR>
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
     nmap <leader>t :tabnew\|te<CR>
-    nmap ! :sp\|te<CR>
     set ttimeout
     set ttimeoutlen=0
 else
@@ -277,8 +281,8 @@ nmap <leader>gs :Gstatus<CR>gg<c-n>
 nmap <leader>gd :Gvdiff<CR>
 nmap <leader>gD :Gvdiff HEAD^<CR>
 nmap <leader>gb :Gblame<CR>
-nmap <leader>gm :Gmerge<CR>
-nmap <leader>gc :Gcommit<CR>
+nmap <leader>gc :Commits<CR>
+nmap <leader>gC :BCommits<CR>
 nmap <leader>gl :Glog<CR>
 nmap <leader>gw :Gwrite<CR>
 nmap <leader>ge :Gedit<CR>
@@ -350,7 +354,7 @@ let g:EasyClipUsePasteToggleDefaults = 0
 nmap [y <Plug>EasyClipSwapPasteBackwards
 nmap ]y <Plug>EasyClipSwapPasteForward
 imap <c-v> <Plug>EasyClipInsertModePaste
-set clipboard+=unnamedplus
+set clipboard=unnamed
 nmap M mL
 
 " ----------------------------------------------------------------------------
@@ -376,30 +380,67 @@ let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_working_path_mode = 'ra'
 
 " ----------------------------------------------------------------------------
+"  FZF
+" ----------------------------------------------------------------------------
+if has('nvim')
+    let $FZF_DEFAULT_OPTS .= ' --inline-info'
+endif
+
+nnoremap <silent> <C-p> :Files<CR>
+nnoremap <silent> ?     :Ag<CR>
+
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+set rtp+=~/.fzf
+
+function! s:merge_handler(line)
+    exec "Gmerge --no-ff --no-commit ".a:line
+endfunction
+
+command! FZFMerge call fzf#run({
+            \ 'source': 'git branch --no-merged',
+            \ 'sink': function('s:merge_handler'),
+            \ 'bottom': 8})
+
+nmap <silent> <leader>gm :FZFMerge<CR>
+
+function! s:checkout_handler(line)
+    let refs = split(matchstr(a:line, '\c(\zs[0-9A-Z\/,\ ]\+\ze)'), '\s*,\s*')
+    echo refs
+    if len(refs) > 1
+        let ref = filter(refs, 'match(v:val, "\\(origin\\|HEAD\\)")')[0]
+    else
+        let ref = refs[0]
+    endif
+    if empty(ref)
+        let ref = matchstr(a:line, '[0-9a-f]\{7}')
+    endif
+    exec "!git checkout ".ref
+endfunction
+
+command! FZFCheckout call fzf#run({
+            \ 'source': 'git log --graph --color=always --all --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"',
+            \ 'sink': function('s:checkout_handler'),
+            \ 'options': '--ansi --multi --no-sort --tiebreak=index --reverse '.
+            \   '--inline-info --prompt "Checkout> " --bind=ctrl-s:toggle-sort',
+            \ 'left': 60})
+
+nmap <silent> <leader>gc :FZFCheckout<CR>
+
+" ----------------------------------------------------------------------------
 "   DelimitMate
 " ----------------------------------------------------------------------------
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1
-au FileType javascript let b:delimitMate_insert_eol_marker = 2
+au FileType javascript let b:delimitMate_insert_eol_marker = 1
 au FileType javascript let b:delimitMate_eol_marker = ";"
-
-" ----------------------------------------------------------------------------
-"  UltiSnips
-" ----------------------------------------------------------------------------
-let g:UltiSnipsExpandTrigger = "<nop>"
-let g:ulti_expand_or_jump_res = 0
-function ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-inoremap <expr> <CR> pumvisible() ?
-            \ "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" :
-            \ "<C-R>=delimitMate#ExpandReturn()<CR>"
-let g:UltiSnipsSnippetsDir = "~/.config/nvim/snippets/UltiSnips"
 
 " ----------------------------------------------------------------------------
 "  vim-commentary
@@ -425,6 +466,113 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+let g:syntastic_error_symbol = "✖"
+let g:syntastic_warning_symbol = "❗"
+
+" ----------------------------------------------------------------------------
+"  YCM
+" ----------------------------------------------------------------------------
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+" ----------------------------------------------------------------------------
+"  Dispatch
+" ----------------------------------------------------------------------------
+autocmd FileType javascript let b:dispatch = 'mocha %'
+
+" ----------------------------------------------------------------------------
+"  Neoterm
+" ----------------------------------------------------------------------------
+function s:navigate_terminals()
+    let terms = keys(g:neoterm.instances)
+    let closed = 0
+    for id in terms
+        let term = g:neoterm.instances[id]
+        if closed == 0
+            if has_key(term, 'isOpen') && term.isOpen == 1
+                let closed = 1
+                call term.close()
+                let term.isOpen = 0
+            endif
+        else
+            call term.open()
+            break
+        endif
+    endfor
+    if closed == 0
+        if len(terms) > 0
+            let term = g:neoterm.instances[terms[0]]
+            call term.open()
+            let term.isOpen = 1
+        endif
+    endif
+endfunction
+
+" Public: Executes a command on terminal.
+" Evaluates any "%" inside the command to the full path of the current file.
+function s:new_term(command)
+    let command = neoterm#expand_cmd(a:command)
+    call neoterm#new()
+    call g:neoterm.last().exec([a:command, ""])
+endfunction
+
+command! NextTerm silent call s:navigate_terminals()
+command! -complete=shellcmd -nargs=+ Execute silent call s:new_term(<q-args>)
+let g:neoterm_position = "vertical"
+
+nmap <silent> @ :NextTerm<CR>
+nmap ! :Execute 
+
+" ----------------------------------------------------------------------------
+"  Deoplete
+" ----------------------------------------------------------------------------
+let g:deoplete#enable_at_startup = 1
+au CompleteDone * pclose
+set completeopt=menuone,noinsert
+
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        if pumvisible()
+            return deoplete#mappings#close_popup()
+        else
+            return delimitMate#ExpandReturn()
+        endif
+    endif
+endfunction
+inoremap <silent> <CR> <C-R>=ExpandSnippetOrCarriageReturn()<CR>
+let g:UltiSnipsSnippetsDir = "~/.config/nvim/snippets/UltiSnips"
+
+" <TAB>: completion.
+imap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> deolete#mappings#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+
+inoremap <expr><C-g> deoplete#mappings#undo_completion()
+" <C-l>: redraw candidates
+inoremap <C-l>       a<BS>
+
+let g:deoplete#keyword_patterns = {}
+let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
+" let g:deoplete#keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+let g:deoplete#keyword_patterns.tex = '[^\w|\s][a-zA-Z_]\w*'
+
 
 " ----------------------------------------------------------------------------
 " co? : Toggle options (inspired by unimpaired.vim)
@@ -459,15 +607,6 @@ endfunction
 
 nnoremap <leader>? :call <SID>goog(getline("."))<cr>
 xnoremap <leader>? "gy:call <SID>goog(@g)<cr>gv
-
-if has('nvim')
-    let $FZF_DEFAULT_OPTS .= ' --inline-info'
-    let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
-endif
-nnoremap <silent> <C-p> :Files<CR>
-nnoremap <silent> <Leader>C        :Colors<CR>
-nnoremap <silent> <Leader><Enter>  :Buffers<CR>
-inoremap <expr> <c-x><c-k> fzf#complete('cat /usr/share/dict/words')
 
 " ----------------------------------------------------------------------------
 " :Root | Change directory to the root of the Git repository
